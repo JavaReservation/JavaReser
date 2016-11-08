@@ -21,7 +21,7 @@ import java.util.Comparator;
  * @version 27/10/2016
  */
 public class ListUtilities {
-	private static final Charset CHARACTER_ENCODING = StandardCharsets.UTF_8;
+	private static final Charset CHARACTER_ENCODING = StandardCharsets.UTF_8;// Testing here
 
 	protected String saveListToTextFile;
 
