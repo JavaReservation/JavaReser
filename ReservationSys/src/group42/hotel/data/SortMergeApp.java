@@ -20,6 +20,7 @@ public class SortMergeApp {
 		// Every entry that does not meet standards or is caught by the catch exceptions will be displayed onto the console
 		System.out.println("These are all the data entreis which do not meet standerds and were rejected ");
 		
+		
 		System.out.println("-----------invalid data from rooms-----------");
 		roomSort();
 		System.out.println("\n-----------Invalid data from customer-----------");
@@ -30,7 +31,7 @@ public class SortMergeApp {
 
 	private static void roomSort() {
 
-		File database = new File("ReservationSys/datafiles/database");
+		File database = new File("ReservationSys/datafiles/sorted");
 		if (!database.exists())
 			database.mkdir();
 
@@ -59,6 +60,10 @@ public class SortMergeApp {
 		File database = new File("ReservationSys/datafiles/database");
 		if (!database.exists())
 			database.mkdir();
+		
+		File duplicates = new File("ReservationSys/datafiles/duplicates");
+		if (!duplicates.exists())
+			duplicates.mkdir();
 
 		Customer[][] customer = new Customer[10][];
 		String fileLocation = "ReservationSys\\datafiles\\";
