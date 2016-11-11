@@ -74,6 +74,7 @@ public class CustomerListDB implements CustomerDAO {
 		//If the statement below doesn't work, use this: before.append(after);
 		return before.append(after).toString();
 	}
+	
 	private static int search(List<Customer> database3, int first, int last, Customer cust) {
 		int result = 0; // to keep the compiler happy.
 
