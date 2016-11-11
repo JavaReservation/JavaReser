@@ -8,6 +8,7 @@ import java.util.List;
 
 import dw317.clinic.data.interfaces.CustomerDAO;
 import dw317.hotel.business.interfaces.Customer;
+import dw317.hotel.business.interfaces.DawsonHotelFactory;
 import dw317.hotel.business.interfaces.HotelFactory;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.data.DuplicateCustomerException;
@@ -36,7 +37,8 @@ public class CustomerListDB implements CustomerDAO {
 	HotelFactory factory)
 	{
 		this.listPersistenceObject = listPersistenceObject;
-		this.factory = factory;
+		this.factory = DawsonHotelFactory.DAWSON;
+		this.database = listPersistenceObject.getCustomerDatabase();
 	}
 	
 	
