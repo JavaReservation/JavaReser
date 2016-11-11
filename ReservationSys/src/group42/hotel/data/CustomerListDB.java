@@ -85,7 +85,7 @@ public class CustomerListDB implements CustomerDAO {
 
 			if (this.listPersistenceObject.getCustomerDatabase().get(i).overlap(cust)) {
 				throw new DuplicateCustomerException();
-
+ 
 			}
 		}
 
