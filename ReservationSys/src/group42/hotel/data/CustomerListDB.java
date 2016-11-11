@@ -3,6 +3,7 @@
  */
 package group42.hotel.data;
 
+import java.io.IOException;
 import java.util.List;
 
 import dw317.clinic.data.interfaces.CustomerDAO;
@@ -40,10 +41,10 @@ public class CustomerListDB implements CustomerDAO {
 	
 	
 	
-	//@Override
-	//public void disconnect
+	@Override
+	public void disconnect()throws IOException
 	{
-		
+		this.listPersistenceObject.saveCustomerDatabase(database);
 	}
 	
 	@Override
