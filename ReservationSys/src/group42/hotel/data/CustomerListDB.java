@@ -9,6 +9,8 @@ import dw317.clinic.data.interfaces.CustomerDAO;
 import dw317.hotel.business.interfaces.Customer;
 import dw317.hotel.business.interfaces.HotelFactory;
 import dw317.hotel.business.interfaces.Reservation;
+import dw317.hotel.data.DuplicateCustomerException;
+import dw317.hotel.data.DuplicateReservationException;
 import dw317.hotel.data.interfaces.ListPersistenceObject;
 import dw317.lib.Email;
 import dw317.lib.creditcard.CreditCard;
@@ -36,11 +38,7 @@ public class CustomerListDB implements CustomerDAO {
 		this.factory = factory;
 	}
 	
-	@Override
-	public void add(Customer cust)
-	{
-		
-	}
+	
 	
 	//@Override
 	//public void disconnect
@@ -66,6 +64,8 @@ public class CustomerListDB implements CustomerDAO {
 	 * toString appended on to it.
 	 * @return the string builded string
 	 */
+	
+	
 	@Override
 	public String toString() {
 		String after = listPersistenceObject.getCustomerDatabase().toString();
@@ -73,6 +73,28 @@ public class CustomerListDB implements CustomerDAO {
 		after.split("*").length);
 		//If the statement below doesn't work, use this: before.append(after);
 		return before.append(after).toString();
+	}
+	
+	@Override
+	public void add(Customer cust) throws DuplicateCustomerException {
+		// check if the customer already exists
+		for (int i = 0; i < this.database.size(); i++) {
+
+			if (this.listPersistenceObject.getCustomerDatabase().get(i).overlap(cust)) {
+				throw new DuplicateCustomerException();
+
+			}
+		}
+
+		// binary search and add the cust paramater into the sorted
+		// reservation file
+		int index = CustomerListDB.search(this.database, 0, this.database.size(), cust);
+
+		if (index != -1) {
+
+			this.database.add(index, cust);
+		}
+
 	}
 	
 	private static int search(List<Customer> database3, int first, int last, Customer cust) {
