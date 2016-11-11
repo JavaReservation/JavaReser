@@ -87,8 +87,14 @@ public class ReservationListDB implements ReservationDAO {
 
 	@Override
 	public void disconnect() throws IOException {
-		// TODO Auto-generated method stub
 
+		try {
+			this.listPersistenceObject.saveReservationDatabase(this.database);
+
+		} catch (IOException a) {
+			throw new IOException("Could not disconect pleas fix >.<");
+		}
+		this.database =null;
 	}
 
 	@Override

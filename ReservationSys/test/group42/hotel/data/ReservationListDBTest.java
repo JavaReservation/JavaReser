@@ -1,16 +1,18 @@
 package group42.hotel.data;
 
+import dw317.clinic.data.interfaces.ReservationDAO;
+import dw317.hotel.business.interfaces.DawsonHotelFactory;
 import dw317.hotel.data.interfaces.ListPersistenceObject;
 
 public class ReservationListDBTest {
 
 	public static void main(String[] args) {
 
-		//ListPersistenceObject b = new ListPersistenceObject ();
 		
-		//ReservationListDB a = new ReservationListDB ();
+		ReservationDAO a = new ReservationListDB(null);
 		
-		//System.out.println(a.toString());
+		System.out.println(a.toString());
+		
 		
 	}
 

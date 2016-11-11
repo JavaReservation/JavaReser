@@ -1,8 +1,8 @@
-package dw317.hotel.data.interfaces;
+package dw317.clinic.data.interfaces;
 
 import java.util.List;
 
-import dw317.hotel.business.RoomType;
+import dw317.hotel.business.interfaces.*;
 import dw317.hotel.business.interfaces.Room;
 
 public interface RoomDAO {

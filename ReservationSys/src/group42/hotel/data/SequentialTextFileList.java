@@ -1,4 +1,4 @@
-package groupX.hotel.data;
+package group42.hotel.data;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import dw317.hotel.business.interfaces.*;
 import dw317.hotel.data.interfaces.ListPersistenceObject;
-import groupX.util.ListUtilities;
+import group42.util.ListUtilities;
 
 public class SequentialTextFileList implements ListPersistenceObject{
 	
