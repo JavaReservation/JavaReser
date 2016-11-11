@@ -2,17 +2,21 @@ package group42.hotel.data;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import dw317.hotel.business.interfaces.Customer;
 import dw317.hotel.business.interfaces.HotelFactory;
 import dw317.hotel.business.interfaces.Room;
 import dw317.hotel.business.interfaces.RoomType;
-import dw317.hotel.data.interfaces.DuplicateReservationException;
 import dw317.hotel.data.interfaces.ListPersistenceObject;
-import dw317.hotel.data.interfaces.NonExistingReservationException;
 import dw317.hotel.data.interfaces.ReservationDAO;
 import dw317.hotel.business.interfaces.Reservation;
+import dw317.hotel.data.DuplicateReservationException;
+import dw317.hotel.data.NonExistingReservationException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -55,11 +59,12 @@ public class ReservationListDB<Reservation> implements ReservationDAO {
 		for (int i = 0; i < this.database.size(); i++) {
 
 			if (this.listPersistenceObject.getReservationDatabase().get(i).overlap(reserv)) {
-				throw new DuplicateReservationExcption("The reservation you are trying to add,"
+				throw new DuplicateReservationException("The reservation you are trying to add,"
 						+ " overlaps with an existing reservation in our database.");
 
 			}
 		}
+		
 
 		// binary search and add the reserv paramater into the sorted
 		// reservation file
@@ -74,7 +79,7 @@ public class ReservationListDB<Reservation> implements ReservationDAO {
 		
 	}
 
-	private static int search(List<?> database2, int first, int last, Reservation reserv) {
+	private static int search(List<Reservation> database2, int first, int last, Reservation reserv) {
 		int result = 0; //to keep the compiler happy.
 		
  		if (first > last)
@@ -102,23 +107,82 @@ public class ReservationListDB<Reservation> implements ReservationDAO {
 	}
 
 	@Override
-	public List<dw317.hotel.business.interfaces.Reservation> getReservations(Customer cust) {
+	public List<Reservation> getReservations(Customer cust) {
 
-		ReservationListDB.search();
+		List<Reservation> res = new ArrayList<Reservation> ();
+			
+			for (int i = 0; i < this.database.size(); i++){
+			
+				if (this.database.get(i).equals(cust)){
+						res.add(this.database.get(i));
+				}
+			}
+			
+			if (res.size() > 0 ){
+				return res;
+			}
 		
 		
-		return null;
+		return res;
 	}
+	/**
+//binary search for the reservation of an specifique customer
+	private static int  search(ListPersistenceObject listPersistenceObject2, int first, int last, Customer cust) {
+		
+		int result = 0; //to keep the compiler happy.
+		
 
+		
+		if (first > last)
+ 			result = -1;
+ 		else
+ 		{
+ 			int mid = (first + last)/2;
+ 			
+ 		if (cust.compareTo(listPersistenceObject2.getCustomerDatabase().get(mid)) == 0)
+ 			result = mid;
+ 		
+ 		else if (cust.compareTo(listPersistenceObject2.getCustomerDatabase().get(mid)) < 0)
+ 			result = search( listPersistenceObject2, first, mid - 1, cust);
+ 		
+ 		else if (cust.compareTo(listPersistenceObject2.getCustomerDatabase().get(mid)) > 0)
+ 			result = search(listPersistenceObject2, mid + 1, last, cust);
+}
+ 			return result;
+		
+	}
+*/
 	@Override
-	public void cancel(dw317.hotel.business.interfaces.Reservation reserv) throws NonExistingReservationException {
-		// TODO Auto-generated method stub
+	public void cancel(Reservation reserv)  throws NonExistingReservationException {
+		
+		int found =0;
+		
+		for (int i = 0; i < this.database.size(); i++){
+			if (this.database.get(i).equals(reserv)){
+				this.database.remove(i);
+				found++;
+			}
+		}
+			if (found >0){
+				throw new NonExistingReservationException ("the Reaservation is not in our database");
+			}
+			
 		
 	}
 
 	@Override
 	public List<Room> getReservedRooms(LocalDate checkin, LocalDate checkout) {
-		// TODO Auto-generated method stub
+		
+			List <Reservation> res = new ArrayList <Reservation> ();
+			
+			
+			
+				for (Room e : this.allRooms){
+					if  (true){
+						res.add(e);
+					}
+				}
+		
 		return null;
 	}
 
