@@ -20,64 +20,61 @@ import dw317.lib.creditcard.CreditCard;
 /**
  * 
  * @author Keylen
- * @version 
+ * @version
  */
 public class CustomerListDB implements CustomerDAO {
 	private List<Customer> database;
 	private final ListPersistenceObject listPersistenceObject;
 	private final HotelFactory factory;
-	
-	
-	public CustomerListDB (ListPersistenceObject listPersistenceObject)
-	{ 
+
+	public CustomerListDB(ListPersistenceObject listPersistenceObject) {
 		this.listPersistenceObject = listPersistenceObject;
 	}
-	
-	public CustomerListDB (ListPersistenceObject listPersistenceObject,
-	HotelFactory factory)
-	{
+
+	public CustomerListDB(ListPersistenceObject listPersistenceObject, HotelFactory factory) {
 		this.listPersistenceObject = listPersistenceObject;
 		this.factory = DawsonHotelFactory.DAWSON;
 		this.database = listPersistenceObject.getCustomerDatabase();
 	}
-	
 
-	
 	@Override
-	public void disconnect()throws IOException
+	public void disconnect() throws IOException 
 	{
-		this.listPersistenceObject.saveCustomerDatabase(database);
+		try {
+			this.listPersistenceObject.saveCustomerDatabase(database);
+		} catch (IOException e) {
+			throw new IOException("Saving to customer to database error");
+		}
+		this.database = null;
 	}
-	
+
 	@Override
-	public void getCustomer(Email email)
-	{
-		
-	}
-	
-	@Override
-	public void update(Email email, CreditCard card)
+	public Customer getCustomer(Email email) 
 	{
 		
+		return customer;
 	}
-	
-	/** 
-	 * Override the toString method to return the
-	 * number of customers with the customer 
-	 * toString appended on to it.
+
+	@Override
+	public void update(Email email, CreditCard card) {
+
+	}
+
+	/**
+	 * Override the toString method to return the number of customers with the
+	 * customer toString appended on to it.
+	 * 
 	 * @return the string builded string
 	 */
-	
-	
+
 	@Override
 	public String toString() {
 		String after = listPersistenceObject.getCustomerDatabase().toString();
-		StringBuilder before = new StringBuilder ("Number of customers in database: "+
-		after.split("*").length);
-		//If the statement below doesn't work, use this: before.append(after);
+		StringBuilder before = new StringBuilder("Number of customers in database: " + after.split("*").length);
+		// If the statement below doesn't work, use this: before.append(after);
 		return before.append(after).toString();
 	}
-	
+
 	@Override
 	public void add(Customer cust) throws DuplicateCustomerException {
 		// check if the customer already exists
@@ -85,7 +82,7 @@ public class CustomerListDB implements CustomerDAO {
 
 			if (this.listPersistenceObject.getCustomerDatabase().get(i).overlap(cust)) {
 				throw new DuplicateCustomerException();
- 
+
 			}
 		}
 
@@ -100,7 +97,9 @@ public class CustomerListDB implements CustomerDAO {
 
 	}
 	
-	private static int search(List<Customer> database3, int first, int last, Customer cust) {
+	//public static <E>
+
+	/**private static int search(List<Customer> database3, int first, int last, Customer cust) {
 		int result = 0; // to keep the compiler happy.
 
 		if (first > last)
@@ -120,6 +119,5 @@ public class CustomerListDB implements CustomerDAO {
 
 		return result;
 
-	}
+	} */
 }
-
