@@ -41,7 +41,7 @@ public class CustomerListDB implements CustomerDAO {
 		this.database = listPersistenceObject.getCustomerDatabase();
 	}
 	
-	
+	//Comment to cause a conflict here
 	
 	@Override
 	public void disconnect()throws IOException
