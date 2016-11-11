@@ -11,6 +11,8 @@ import dw317.hotel.business.interfaces.HotelFactory;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.data.DuplicateCustomerException;
 import dw317.hotel.data.DuplicateReservationException;
+import dw317.hotel.data.NonExistingCustomerException;
+import dw317.hotel.data.interfaces.CustomerDAO;
 import dw317.hotel.data.interfaces.ListPersistenceObject;
 import dw317.lib.Email;
 import dw317.lib.creditcard.CreditCard;
@@ -49,14 +51,17 @@ public class CustomerListDB implements CustomerDAO {
 
 	@Override
 	public Customer getCustomer(Email email) 
+			throws NonExistingCustomerException
 	{
-		
-		return customer;
+		int index = search(database, email);
+		if(index < 0);
+			throw new NonExistingCustomerException(); 
+		return database.get(index);
 	}
 
 	@Override
 	public void update(Email email, CreditCard card) {
-
+		
 	}
 
 	/**
@@ -88,35 +93,32 @@ public class CustomerListDB implements CustomerDAO {
 		// binary search and add the cust paramater into the sorted
 		// reservation file
 		int index = CustomerListDB.search(this.database, 0, this.database.size(), cust);
-
+			
 		if (index != -1) {
 
 			this.database.add(index, cust);
 		}
 
 	}
-	
-	//public static <E>
-
-	/**private static int search(List<Customer> database3, int first, int last, Customer cust) {
-		int result = 0; // to keep the compiler happy.
-
-		if (first > last)
-			result = -1;
-		else {
-			int mid = (first + last) / 2;
-
-			if (cust.compareTo(database3.get(mid)) == 0)
-				result = mid;
-
-			else if (cust.compareTo(database3.get(mid)) < 0)
-				result = search(database3, first, mid - 1, cust);
-
-			else if (cust.compareTo(database3.get(mid)) > 0)
-				result = search(database3, mid + 1, last, cust);
+	//Not finished this
+	private static int search(List<Customer> list, Email key) {
+		int result;
+		int low = 0;
+		int middle;
+		int high = list.size() - 1;
+		while (low <= high) {
+			middle = (low + high)/2;
+			//Need to compare the email field of the list.get(middle) to the email
+			result = list.get(middle).compareTo(key);
+			if (result == 0)
+				return middle;
+			if(result < 0){
+				low = middle + 1;
+			}else{
+				high = middle -1;
+			}
 		}
+		return -(high + 1);
 
-		return result;
-
-	} */
+	} 
 }
