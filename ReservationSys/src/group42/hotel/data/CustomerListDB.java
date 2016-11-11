@@ -8,6 +8,7 @@ import java.util.List;
 import dw317.clinic.data.interfaces.CustomerDAO;
 import dw317.hotel.business.interfaces.Customer;
 import dw317.hotel.business.interfaces.HotelFactory;
+import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.data.interfaces.ListPersistenceObject;
 import dw317.lib.Email;
 import dw317.lib.creditcard.CreditCard;
@@ -72,6 +73,27 @@ public class CustomerListDB implements CustomerDAO {
 		after.split("*").length);
 		//If the statement below doesn't work, use this: before.append(after);
 		return before.append(after).toString();
+	}
+	private static int search(List<Reservation> database3, int first, int last, Customer cust) {
+		int result = 0; // to keep the compiler happy.
+
+		if (first > last)
+			result = -1;
+		else {
+			int mid = (first + last) / 2;
+
+			if (cust.compareTo(database3.get(mid)) == 0)
+				result = mid;
+
+			else if (cust.compareTo(database3.get(mid)) < 0)
+				result = search(database3, first, mid - 1, cust);
+
+			else if (cust.compareTo(database3.get(mid)) > 0)
+				result = search(database3, mid + 1, last, cust);
+		}
+
+		return result;
+
 	}
 }
 
