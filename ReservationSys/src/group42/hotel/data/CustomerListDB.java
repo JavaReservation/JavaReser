@@ -55,13 +55,18 @@ public class CustomerListDB implements CustomerDAO {
 	{
 		int index = search(database, email);
 		if(index < 0);
-			throw new NonExistingCustomerException(); 
+			throw new NonExistingCustomerException();
+		//Not sure why im getting this error here
 		return database.get(index);
 	}
 
 	@Override
-	public void update(Email email, CreditCard card) {
-		
+	public void update(Email email, CreditCard card) 
+			throws NonExistingCustomerException {
+		int index = search(database, email);
+		if(index < 0);
+			throw new NonExistingCustomerException();
+		//Need to append the credit card onto the email here
 	}
 
 	/**
@@ -75,7 +80,7 @@ public class CustomerListDB implements CustomerDAO {
 	public String toString() {
 		String after = listPersistenceObject.getCustomerDatabase().toString();
 		StringBuilder before = new StringBuilder("Number of customers in database: " + after.split("*").length);
-		// If the statement below doesn't work, use this: before.append(after);
+		// If the statement below doesn't work,take jaya's from roomlistB or use this: before.append(after);
 		return before.append(after).toString();
 	}
 
