@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-
-import dw317.hotel.business.interfaces.Room;
-import group42.hotel.business.RoomType;
 import group42.util.ListUtilities;
-import dw317.clinic.data.interfaces.*;
+import dw317.hotel.business.interfaces.Room;
+import dw317.hotel.business.RoomType;
 
 public class RoomListDBTest {
 

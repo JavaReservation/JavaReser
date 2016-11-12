@@ -1,15 +1,14 @@
-package dw317.hotel.business.interfaces;
+package group42.hotel.business;
 
 import group42.hotel.business.DawsonCustomer;
 import group42.hotel.business.DawsonReservation;
 import group42.hotel.business.DawsonRoom;
-import group42.hotel.business.RoomType;
 import dw317.hotel.business.interfaces.Customer;
 import dw317.hotel.business.interfaces.HotelFactory;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.business.interfaces.Room;
 import dw317.lib.creditcard.CreditCard;
-
+import dw317.hotel.business.RoomType;
 /**
  * This Enum gets all the instances and classes of the abstract method
  * 

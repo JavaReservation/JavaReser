@@ -3,9 +3,10 @@ package group42.hotel.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import dw317.hotel.business.RoomType;
 import dw317.hotel.business.interfaces.Room;
 import dw317.hotel.data.interfaces.ListPersistenceObject;
-import dw317.clinic.data.interfaces.*;
+import dw317.hotel.data.interfaces.*;
 
 /**
  * Concrete class that provides RoomDAO functionality

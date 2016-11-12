@@ -1,7 +1,7 @@
 /**
  * 
  */
-package dw317.hotel.business.interfaces;
+package dw317.hotel.business;
 
 /**
  * @author RoanWC

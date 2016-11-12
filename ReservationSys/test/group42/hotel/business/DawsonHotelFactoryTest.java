@@ -4,10 +4,10 @@
 package group42.hotel.business;
 
 import dw317.hotel.business.interfaces.Customer;
-import dw317.hotel.business.interfaces.DawsonHotelFactory;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.business.interfaces.Room;
 import dw317.lib.creditcard.CreditCard;
+import group42.hotel.business.DawsonHotelFactory;
 
 /**
  * @author pepe
@@ -171,36 +171,5 @@ public class DawsonHotelFactoryTest {
 		
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

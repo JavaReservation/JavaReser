@@ -1,5 +1,6 @@
 package group42.hotel.business;
 
+import dw317.hotel.business.RoomType;
 import dw317.hotel.business.interfaces.Room;
 
 /**
@@ -75,7 +76,6 @@ public class DawsonRoom implements Room {
 		}
 
 		return roomNumber;
-
 	}
 
 	/**

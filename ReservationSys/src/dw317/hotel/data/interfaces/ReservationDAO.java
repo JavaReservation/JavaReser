@@ -1,13 +1,13 @@
-package dw317.clinic.data.interfaces;
+package dw317.hotel.data.interfaces;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
+import dw317.hotel.business.RoomType;
 import dw317.hotel.business.interfaces.Customer;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.business.interfaces.Room;
-import dw317.hotel.business.interfaces.RoomType;
 import dw317.hotel.data.*;
 
 public interface ReservationDAO {

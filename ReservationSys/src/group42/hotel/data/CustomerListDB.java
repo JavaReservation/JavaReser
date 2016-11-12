@@ -6,9 +6,7 @@ package group42.hotel.data;
 import java.io.IOException;
 import java.util.List;
 
-import dw317.clinic.data.interfaces.CustomerDAO;
 import dw317.hotel.business.interfaces.Customer;
-import dw317.hotel.business.interfaces.DawsonHotelFactory;
 import dw317.hotel.business.interfaces.HotelFactory;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.data.DuplicateCustomerException;
@@ -16,6 +14,7 @@ import dw317.hotel.data.DuplicateReservationException;
 import dw317.hotel.data.interfaces.ListPersistenceObject;
 import dw317.lib.Email;
 import dw317.lib.creditcard.CreditCard;
+import group42.hotel.business.DawsonHotelFactory;
 
 /**
  * 
