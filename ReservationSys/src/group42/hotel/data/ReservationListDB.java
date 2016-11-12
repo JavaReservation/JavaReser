@@ -99,11 +99,12 @@ public class ReservationListDB implements ReservationDAO {
 
 	@Override
 	public List<Reservation> getReservations(Customer cust) {
+		
 		List<Reservation> res = new ArrayList<Reservation>();
 
 		for (int i = 0; i < this.database.size(); i++) {
 
-			if (this.database.get(i).equals(cust)) {
+			if (this.database.get(i).getCustomer().compareTo(cust) == 0) {
 				res.add(this.database.get(i));
 			}
 		}
@@ -117,14 +118,18 @@ public class ReservationListDB implements ReservationDAO {
 	@Override
 	public void cancel(Reservation reserv) throws NonExistingReservationException {
 		int found = 0;
-
+		
+		System.out.println("Meow");
+		
 		for (int i = 0; i < this.database.size(); i++) {
-			if (this.database.get(i).equals(reserv)) {
+			//System.out.println(this.database.get(i).toString());
+			
+			if (this.database.get(i).compareTo(reserv) == 0) {
 				this.database.remove(i);
 				found++;
 			}
 		}
-		if (found > 0) {
+		if (found == 0) {
 			throw new NonExistingReservationException("the Reaservation is not in our database");
 		}
 
@@ -134,11 +139,15 @@ public class ReservationListDB implements ReservationDAO {
 	public List<Room> getReservedRooms(LocalDate checkin, LocalDate checkout) {
 
 		List<Room> res = new ArrayList<Room>();
+		
 
 		for (int i = 0; i < this.database.size(); i++) {
+				
+			//System.out.println();
 			if (database.get(i).getCheckInDate().isAfter(checkin)
 					&& database.get(i).getCheckOutDate().isBefore(checkout)) {
 
+				
 				res.add(database.get(i).getRoom());
 
 			}
@@ -149,12 +158,12 @@ public class ReservationListDB implements ReservationDAO {
 
 	@Override
 	public List<Room> getFreeRooms(LocalDate checkin, LocalDate checkout) {
-		
+
 		List<Room> res = new ArrayList<Room>();
 
 		for (int i = 0; i < this.database.size(); i++) {
-			if (database.get(i).getCheckInDate().isAfter(checkin)
-					&& database.get(i).getCheckOutDate().isBefore(checkout)) {
+			if (!database.get(i).getCheckInDate().isAfter(checkin)
+					&& !database.get(i).getCheckOutDate().isBefore(checkout)) {
 
 				res.add(database.get(i).getRoom());
 
@@ -166,13 +175,29 @@ public class ReservationListDB implements ReservationDAO {
 
 	@Override
 	public List<Room> getFreeRooms(LocalDate checkin, LocalDate checkout, RoomType roomType) {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<Room> res = new ArrayList<Room>();
+
+		for (int i = 0; i < this.database.size(); i++) {
+			if (this.database.get(i).getCheckInDate().isAfter(checkin)
+					&& this.database.get(i).getCheckOutDate().isAfter(checkout)
+					&& this.database.get(i).getRoom().getRoomType().equals(roomType)) {
+
+				res.add(this.database.get(i).getRoom());
+			}
+		}
+
+		return res;
 	}
 
 	@Override
 	public void clearAllPast() {
-		// TODO Auto-generated method stub
+
+		for (int i = 0; i < this.database.size(); i++) {
+			if (this.database.get(i).getCheckInDate().isBefore(LocalDate.now())) {
+				this.database.remove(i);
+			}
+		}
 
 	}
 

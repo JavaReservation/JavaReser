@@ -5,6 +5,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import dw317.hotel.business.interfaces.*;
+import group42.hotel.business.DawsonHotelFactory;
 
 /**
  * This class is responsible for loading the rooms text file and the customer

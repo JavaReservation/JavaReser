@@ -1,7 +1,6 @@
 package group42.hotel.business;
 
 import dw317.hotel.business.interfaces.Customer;
-import dw317.hotel.business.interfaces.DawsonHotelFactory;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.business.interfaces.Room;
 

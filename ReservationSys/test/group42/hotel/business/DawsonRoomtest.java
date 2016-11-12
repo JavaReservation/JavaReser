@@ -1,5 +1,7 @@
 package group42.hotel.business;
 
+import dw317.hotel.business.RoomType;
+
 public class DawsonRoomtest{
 
 

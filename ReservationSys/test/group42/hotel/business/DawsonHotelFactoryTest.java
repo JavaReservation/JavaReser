@@ -10,7 +10,7 @@ import dw317.lib.creditcard.CreditCard;
 import group42.hotel.business.DawsonHotelFactory;
 
 /**
- * @author pepe
+ * @author Werner 
  *
  */
 public class DawsonHotelFactoryTest {
