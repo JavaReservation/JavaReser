@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dw317.hotel.business.interfaces.Customer;
-import dw317.hotel.business.interfaces.DawsonHotelFactory;
-import dw317.hotel.business.interfaces.HotelFactory;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.business.interfaces.Room;
-import dw317.hotel.business.interfaces.RoomType;
 import dw317.hotel.data.DuplicateReservationException;
 import dw317.hotel.data.NonExistingReservationException;
 import dw317.hotel.data.interfaces.ListPersistenceObject;
-import dw317.clinic.data.interfaces.ReservationDAO;
+import dw317.hotel.data.interfaces.ReservationDAO;
+import group42.hotel.business.DawsonHotelFactory;
+import dw317.hotel.business.RoomType;
+import dw317.hotel.business.interfaces.HotelFactory;
 
 public class ReservationListDB implements ReservationDAO {
 
