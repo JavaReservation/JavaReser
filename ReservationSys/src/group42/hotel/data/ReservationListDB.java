@@ -94,7 +94,7 @@ public class ReservationListDB implements ReservationDAO {
 		} catch (IOException a) {
 			throw new IOException("Could not disconect pleas fix >.<");
 		}
-		this.database =null;
+		this.database = null;
 	}
 
 	@Override
@@ -132,14 +132,36 @@ public class ReservationListDB implements ReservationDAO {
 
 	@Override
 	public List<Room> getReservedRooms(LocalDate checkin, LocalDate checkout) {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<Room> res = new ArrayList<Room>();
+
+		for (int i = 0; i < this.database.size(); i++) {
+			if (database.get(i).getCheckInDate().isAfter(checkin)
+					&& database.get(i).getCheckOutDate().isBefore(checkout)) {
+
+				res.add(database.get(i).getRoom());
+
+			}
+		}
+
+		return res;
 	}
 
 	@Override
 	public List<Room> getFreeRooms(LocalDate checkin, LocalDate checkout) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Room> res = new ArrayList<Room>();
+
+		for (int i = 0; i < this.database.size(); i++) {
+			if (database.get(i).getCheckInDate().isAfter(checkin)
+					&& database.get(i).getCheckOutDate().isBefore(checkout)) {
+
+				res.add(database.get(i).getRoom());
+
+			}
+		}
+
+		return res;
 	}
 
 	@Override
