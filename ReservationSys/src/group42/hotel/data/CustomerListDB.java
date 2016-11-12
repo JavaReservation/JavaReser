@@ -30,11 +30,13 @@ public class CustomerListDB implements CustomerDAO {
 
 	public CustomerListDB(ListPersistenceObject listPersistenceObject) {
 		this.listPersistenceObject = listPersistenceObject;
+		this.factory = DawsonHotelFactory.DAWSON;
+		this.database = listPersistenceObject.getCustomerDatabase();
 	}
 
 	public CustomerListDB(ListPersistenceObject listPersistenceObject, HotelFactory factory) {
 		this.listPersistenceObject = listPersistenceObject;
-		this.factory = DawsonHotelFactory.DAWSON;
+		this.factory = factory;
 		this.database = listPersistenceObject.getCustomerDatabase();
 	}
 
