@@ -56,10 +56,9 @@ public class CustomerListDB implements CustomerDAO {
 			throws NonExistingCustomerException
 	{
 		int index = search(database, email);
-		if(index < 0);
+		if(index < 0)
 			throw new NonExistingCustomerException();
-		//Not sure why im getting this error here
-		return database.get(index);
+				return database.get(index);
 	}
 
 	@Override
