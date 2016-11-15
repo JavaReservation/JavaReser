@@ -180,7 +180,7 @@ public class ListUtilities {
 		try {
 
 			outputStream = new PrintWriter(new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(duplicateFileName, true), StandardCharsets.UTF_8)));
+					new OutputStreamWriter(new FileOutputStream(duplicateFileName, false), StandardCharsets.UTF_8)));
 
 			outputStream.println(comparable + "(merged)");
 			
