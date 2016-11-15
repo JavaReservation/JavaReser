@@ -1,14 +1,17 @@
 package group42.hotel.business;
 
 import group42.hotel.business.DawsonCustomer;
+import dw317.hotel.data.interfaces.ReservationDAO;
 import group42.hotel.business.DawsonReservation;
 import group42.hotel.business.DawsonRoom;
+import dw317.hotel.business.interfaces.AllocationPolicy;
 import dw317.hotel.business.interfaces.Customer;
 import dw317.hotel.business.interfaces.HotelFactory;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.business.interfaces.Room;
 import dw317.lib.creditcard.CreditCard;
 import dw317.hotel.business.RoomType;
+
 /**
  * This Enum gets all the instances and classes of the abstract method
  * 
@@ -29,8 +32,7 @@ public enum DawsonHotelFactory implements HotelFactory {
 
 	@Override
 	public Room getRoomInstance(int roomNumber, String roomtype) {
-		return new DawsonRoom(roomNumber, 
-				RoomType.valueOf(roomtype.toUpperCase()));
+		return new DawsonRoom(roomNumber, RoomType.valueOf(roomtype.toUpperCase()));
 	}
 
 	@Override
@@ -39,17 +41,17 @@ public enum DawsonHotelFactory implements HotelFactory {
 		return new DawsonReservation(aCustomer, aRoom, inYear, inMonth, inDay, outYear, outMonth, outDay);
 	}
 
-
 	@Override
 	public Reservation getReservationInstance(Reservation toCopy) {
-		return new DawsonReservation(toCopy.getCustomer(),
-				toCopy.getRoom(),
-				toCopy.getCheckInDate().getYear(),
-				toCopy.getCheckInDate().getMonthValue(),
-				toCopy.getCheckInDate().getDayOfMonth(), 
-				toCopy.getCheckOutDate().getYear(),
-				toCopy.getCheckOutDate().getMonthValue(),
+		return new DawsonReservation(toCopy.getCustomer(), toCopy.getRoom(), toCopy.getCheckInDate().getYear(),
+				toCopy.getCheckInDate().getMonthValue(), toCopy.getCheckInDate().getDayOfMonth(),
+				toCopy.getCheckOutDate().getYear(), toCopy.getCheckOutDate().getMonthValue(),
 				toCopy.getCheckOutDate().getDayOfMonth());
+	}
+
+	@Override
+	public AllocationPolicy getAllocationPolicy(ReservationDAO reservations) {
+		return new DawsonHotelAllocationPolicy(reservations);
 	}
 
 }
