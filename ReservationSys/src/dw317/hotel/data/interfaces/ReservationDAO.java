@@ -12,83 +12,92 @@ import dw317.hotel.data.*;
 
 public interface ReservationDAO {
 	/**
-	 * Adds a reservation to the database. If the reservation overlaps 
-        * with an existing reservation, a DuplicationReservationException
-        * is thrown. Otherwise, the reservation is added based on room number
-	 * and the check-in date.
+	 * Adds a reservation to the database. If the reservation overlaps with an
+	 * existing reservation, a DuplicationReservationException is thrown.
+	 * Otherwise, the reservation is added based on room number and the check-in
+	 * date.
 	 * 
-	 * @param  reserv
+	 * @param reserv
 	 *            The reservation to add to the database.
 	 * @throws DuplicateReservationException
 	 */
-	void add(Reservation reserv)
-			throws DuplicateReservationException;
+	void add(Reservation reserv) throws DuplicateReservationException;
 
-	
 	/**
-	 * Saves the reservations and disconnects from the database. 
+	 * Saves the reservations and disconnects from the database.
 	 * 
 	 * @throws IOException
-	 *            Problems saving or disconnecting from database.
+	 *             Problems saving or disconnecting from database.
 	 */
-	 void disconnect()throws IOException;
-	
-	 /**
-	  * Returns the reservations for a given customer. 
-	  * 
-  	  * @param  cust  The given customer.
-	  * 
-	  * @return  The reservations for the customer (empty list if none).
-	  */
-	 List<Reservation> getReservations(Customer cust);
+	void disconnect() throws IOException;
+
+	/**
+	 * Returns the reservations for a given customer.
+	 * 
+	 * @param cust
+	 *            The given customer.
+	 * 
+	 * @return The reservations for the customer (empty list if none).
+	 */
+	List<Reservation> getReservations(Customer cust);
 
 	/**
 	 * Cancels a reservation.
-	 * @param reserv The given reservation
+	 * 
+	 * @param reserv
+	 *            The given reservation
 	 * @throws NonExistingReservationException
-	 *          Could not find the reservation
+	 *             Could not find the reservation
 	 */
 	void cancel(Reservation reserv) throws NonExistingReservationException;
 
 	/**
 	 * Gets a list of all rooms reserved at some point between the supplied
-	 * check-in and check-out dates. Note that rooms are reserved for any 
+	 * check-in and check-out dates. Note that rooms are reserved for any
 	 * overlapping period, not necessarily the entirety of the period
 	 * 
-	 * @param checkin Start date of period
-	 * @param checkout End date of the period
-	 * @return list of all occupied rooms. Empty list is returned if
-	 *         no rooms are occupied
+	 * @param checkin
+	 *            Start date of period
+	 * @param checkout
+	 *            End date of the period
+	 * @return list of all occupied rooms. Empty list is returned if no rooms
+	 *         are occupied
 	 */
 	List<Room> getReservedRooms(LocalDate checkin, LocalDate checkout);
-	
+
 	/**
 	 * Gets a list of all rooms NOT reserved at some point between the supplied
-	 * check-in and check-out dates. Note that only rooms that are not reserved 
+	 * check-in and check-out dates. Note that only rooms that are not reserved
 	 * for any period between the given dates are returned
 	 * 
-	 * @param checkin Start date of period
-	 * @param checkout End date of the period
-	 * @return list of all unoccupied rooms. Empty list is returned if
-	 *         no rooms are unoccupied
+	 * @param checkin
+	 *            Start date of period
+	 * @param checkout
+	 *            End date of the period
+	 * @return list of all unoccupied rooms. Empty list is returned if no rooms
+	 *         are unoccupied
 	 */
 	List<Room> getFreeRooms(LocalDate checkin, LocalDate checkout);
-	
+
 	/**
-	 * Gets a list of all rooms of given room type NOT reserved between the supplied
-	 * check-in and check-out dates. Note that only rooms that are not reserved 
-	 * for any period between the given dates are returned
+	 * Gets a list of all rooms of given room type NOT reserved between the
+	 * supplied check-in and check-out dates. Note that only rooms that are not
+	 * reserved for any period between the given dates are returned
 	 * 
-	 * @param checkin Start date of period
-	 * @param checkout End date of the period
-	 * @param roomType The type of room requested
-	 * @return list of all unoccupied rooms. Empty list is returned if
-	 *         no rooms are unoccupied
+	 * @param checkin
+	 *            Start date of period
+	 * @param checkout
+	 *            End date of the period
+	 * @param roomType
+	 *            The type of room requested
+	 * @return list of all unoccupied rooms. Empty list is returned if no rooms
+	 *         are unoccupied
 	 */
 	List<Room> getFreeRooms(LocalDate checkin, LocalDate checkout, RoomType roomType);
-	
+
 	/**
-	 * Removes all reservations with the checkout date prior to the current date.
+	 * Removes all reservations with the checkout date prior to the current
+	 * date.
 	 */
 	void clearAllPast();
 

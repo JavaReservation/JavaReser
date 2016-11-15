@@ -1,16 +1,12 @@
-/**
- * 
- */
 package group42.hotel.data;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import dw317.hotel.business.interfaces.Customer;
 import dw317.hotel.business.interfaces.HotelFactory;
-import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.data.DuplicateCustomerException;
-import dw317.hotel.data.DuplicateReservationException;
 import dw317.hotel.data.NonExistingCustomerException;
 import dw317.hotel.data.interfaces.CustomerDAO;
 import dw317.hotel.data.interfaces.ListPersistenceObject;
@@ -19,9 +15,10 @@ import dw317.lib.creditcard.CreditCard;
 import group42.hotel.business.DawsonHotelFactory;
 
 /**
- * 
+ * This class represents the customer database as an internal list.
+ * Implementing the CustomerDAO interface.
  * @author Keylen
- * @version
+ * @version 14/11/2016
  */
 public class CustomerListDB implements CustomerDAO {
 	private List<Customer> database;
@@ -39,7 +36,14 @@ public class CustomerListDB implements CustomerDAO {
 		this.factory = factory;
 		this.database = listPersistenceObject.getCustomerDatabase();
 	}
-
+	/**
+	 *This method makes the database transactions persistent.
+	 *Saves the database to disk then assigns null to the database field.
+	 *
+	 * @throws IOException A problem with saving a file
+	 * @author Keylen
+	 * @version 14/11/2016
+	 */
 	@Override
 	public void disconnect() throws IOException 
 	{
@@ -48,9 +52,19 @@ public class CustomerListDB implements CustomerDAO {
 		} catch (IOException e) {
 			throw new IOException("Saving to customer to database error");
 		}
+		
 		this.database = null;
 	}
 
+	/**
+	 * This method is responsible for returning a reference 
+	 * to the customer with the given email address.
+	 * 
+	 * @throws NonExistingCustomerException If a customer does not exist
+	 * @return database.get(index) The reference of a customer
+	 * @param email
+	 * @author Keylen
+	 */
 	@Override
 	public Customer getCustomer(Email email) 
 			throws NonExistingCustomerException
@@ -61,13 +75,23 @@ public class CustomerListDB implements CustomerDAO {
 				return database.get(index);
 	}
 
+	
+	/**
+	 * This method will update a customer in the database if it exists,
+	 * with a credit card.
+	 * 
+	 * @param email
+	 * @param card
+	 * @throws NonExistingCustomerException If the customer does no exist
+	 * @author Keylen
+	 */
 	@Override
 	public void update(Email email, CreditCard card) 
 			throws NonExistingCustomerException {
 		int index = search(database, email);
-		if(index < 0);
+		if(index < 0)
 			throw new NonExistingCustomerException();
-		//Need to append the credit card onto the email here
+		database.get(index).setCreditCard(Optional.ofNullable(card));
 	}
 
 	/**
@@ -79,34 +103,42 @@ public class CustomerListDB implements CustomerDAO {
 
 	@Override
 	public String toString() {
-		String after = listPersistenceObject.getCustomerDatabase().toString();
-		StringBuilder before = new StringBuilder("Number of customers in database: " + after.split("*").length);
-		// If the statement below doesn't work,take jaya's from roomlistB or use this: before.append(after);
-		return before.append(after).toString();
+		int num = database.size();
+		StringBuilder str = new StringBuilder("\nNumber of customers in database: " + num);
+		for (Customer r : database) {
+			str.append("\n" + r.toString());
+		}
+		return str.toString();
 	}
 
+	/**
+	 * This method is responsible for adding a customer to the database.
+	 * 
+	 * @throws DuplicateCustomerException
+	 * @param cust A customer
+	 * @author Keylen, Roan
+	 */
 	@Override
 	public void add(Customer cust) throws DuplicateCustomerException {
-		// check if the customer already exists
-		for (int i = 0; i < this.database.size(); i++) {
+		int index = search(database, cust.getEmail());
+		if( index > 0)
+			throw new DuplicateCustomerException();
 
-			if (this.listPersistenceObject.getCustomerDatabase().get(i).overlap(cust)) {
-				throw new DuplicateCustomerException();
-
-			}
-		}
-
-		// binary search and add the cust paramater into the sorted
-		// reservation file
-		int index = CustomerListDB.search(this.database, 0, this.database.size(), cust);
-			
-		if (index != -1) {
-
-			this.database.add(index, cust);
-		}
-
+		index = -(index);
+		
+		database.add(index, factory.getCustomerInstance
+				(cust.getName().getfirstName(),cust.getName().getlastName(),cust.getEmail().getAddress()));
+		
+		database.get(index).setCreditCard(cust.getCreditCard());
 	}
-	//Not finished this
+	
+	/**
+	 * This is a binary search
+	 * 
+	 * @param list
+	 * @param key
+	 * @return the index of the key inside of the list
+	 */
 	private static int search(List<Customer> list, Email key) {
 		int result;
 		int low = 0;
@@ -114,8 +146,7 @@ public class CustomerListDB implements CustomerDAO {
 		int high = list.size() - 1;
 		while (low <= high) {
 			middle = (low + high)/2;
-			//Need to compare the email field of the list.get(middle) to the email
-			result = list.get(middle).compareTo(key);
+			result = list.get(middle).getEmail().compareTo(key);
 			if (result == 0)
 				return middle;
 			if(result < 0){

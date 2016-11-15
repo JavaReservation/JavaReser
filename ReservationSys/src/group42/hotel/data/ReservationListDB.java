@@ -72,45 +72,41 @@ public class ReservationListDB implements ReservationDAO {
 	public void add(Reservation reserv) throws DuplicateReservationException { // issues
 		// check if there is an overlap with the reservation we are trying to
 		// add to the database
-		for (int i = 0; i < this.database.size(); i++) {
 
-			if (this.listPersistenceObject.getReservationDatabase().get(i).overlap(reserv)) {
-				throw new DuplicateReservationException("The reservation you are trying to add,"
-						+ " overlaps with an existing reservation in our database.");
-
-			}
-		}
-
+		Reservation copyReserv = factory.getReservationInstance(reserv);
 		// binary search and add the reserv paramater into the sorted
 		// reservation file
-		int index = ReservationListDB.search(this.database, 0, this.database.size(), reserv);
+		int index = search(this.database, copyReserv);
+		index = -(index);
 
-		if (index != -1) {
-
+		if (index > 0) {
 			this.database.add(index, reserv);
+			System.out.println("Reservation succesfully added ==>" + this.database.get(index).toString());
+		} else {
+			throw new DuplicateReservationException("The reservation is already in our system");
 		}
 
 	}
 
-	private static int search(List<Reservation> database2, int first, int last, Reservation reserv) {
-		int result = 0; // to keep the compiler happy.
+	private static int search(List<? extends Reservation> reservationList, Reservation res) {
+		int low = 0;
+		int high = reservationList.size() - 1;
+		int mid = (low + high) / 2;
+		int result;
 
-		if (first > last)
-			result = -1;
-		else {
-			int mid = (first + last) / 2;
+		while (low <= high) {
 
-			if (reserv.compareTo(database2.get(mid)) == 0)
-				result = mid;
+			mid = (low + high) / 2;
+			result = reservationList.get(mid).compareTo(res);
 
-			else if (reserv.compareTo(database2.get(mid)) < 0)
-				result = search(database2, first, mid - 1, reserv);
-
-			else if (reserv.compareTo(database2.get(mid)) > 0)
-				result = search(database2, mid + 1, last, reserv);
+			if (result == 0) {
+				return mid;
+			} else if (result < 0) {
+				low = mid + 1;
+			} else
+				high = mid - 1;
 		}
-
-		return result;
+		return -(high + 1);
 
 	}
 
@@ -237,15 +233,14 @@ public class ReservationListDB implements ReservationDAO {
 		List<Room> res = new ArrayList<Room>();
 
 		for (int i = 0; i < this.database.size(); i++) {
-			if (database.get(i).getCheckInDate().isAfter(checkin)
-					|| database.get(i).getCheckOutDate().isBefore(checkout)) {
+			if (!(this.database.get(i).getCheckInDate().isBefore(checkin))
+					&& !(this.database.get(i).getCheckOutDate().isAfter(checkout))) {
 
 				res.add(this.database.get(i).getRoom());
-				//System.out.println("Meow");
 
 			}
 		}
-		
+
 		return res;
 	}
 
@@ -266,18 +261,20 @@ public class ReservationListDB implements ReservationDAO {
 	@Override
 	public List<Room> getFreeRooms(LocalDate checkin, LocalDate checkout, RoomType roomType) {
 
-		List<Room> res = new ArrayList<Room>();
+		List<Room> rooms = new ArrayList<Room>();
 
 		for (int i = 0; i < this.database.size(); i++) {
-			if (this.database.get(i).getCheckInDate().isAfter(checkin)
-					|| this.database.get(i).getCheckOutDate().isAfter(checkout)
-					&& this.database.get(i).getRoom().getRoomType().equals(roomType)) {
+			if (!(this.database.get(i).getCheckInDate().isBefore(checkin))
+					&& !(this.database.get(i).getCheckOutDate().isAfter(checkout))
+					&& (this.database.get(i).getRoom().getRoomType().equals(roomType))) {
 
-				res.add(this.database.get(i).getRoom());
+				if (this.database.get(i).getRoom().equals(this.allRooms.get(i)))
+					rooms.add(this.database.get(i).getRoom());
+
 			}
 		}
 
-		return res;
+		return rooms;
 	}
 
 	/**
@@ -286,11 +283,10 @@ public class ReservationListDB implements ReservationDAO {
 	 */
 	@Override
 	public void clearAllPast() {
-
+		
 		for (int i = 0; i < this.database.size(); i++) {
-			if (this.database.get(i).getCheckInDate().isBefore(LocalDate.now())) {
+			if (this.database.get(i).getCheckOutDate().isBefore(LocalDate.now())) {
 				this.database.remove(i);
-				System.out.println(this.database.get(i));
 			}
 		}
 
@@ -298,10 +294,11 @@ public class ReservationListDB implements ReservationDAO {
 
 	@Override
 	public String toString() {
-		String after = this.database.toString();
-		StringBuilder before = new StringBuilder("Number of Reservations in database: " + after.split("*").length);
-		// If the statement below doesn't work,take jaya's from roomlistB or use
-		// this: before.append(after);
-		return before.append(after).toString();
+		int num = database.size();
+		StringBuilder str = new StringBuilder("Number of reservations in database: " + num);
+		for (Reservation r : this.database) {
+			str.append("\n" + r.toString());
+		}
+		return str.toString();
 	}
 }
