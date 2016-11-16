@@ -1,5 +1,6 @@
 package dw317.hotel.data.interfaces;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -9,8 +10,11 @@ public interface ListPersistenceObject {
 	/**
 	 * Reads in the list of rooms from disk
 	 * @return a List of Room objects
+	 * @throws FileNotFoundException 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
 	 */
-	List<Room> getRoomDatabase();
+	List<Room> getRoomDatabase() throws FileNotFoundException, ClassNotFoundException, IOException;
 	
 	/**
 	 * Reads in a list of Customers from disk

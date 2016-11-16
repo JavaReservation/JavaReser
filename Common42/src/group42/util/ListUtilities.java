@@ -12,10 +12,15 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
- * This class is responsible for creating a merge and sort static methods
- * to be called by the SortMergeApp
+ * This class is responsible for creating a merge and sort static methods to be
+ * called by the SortMergeApp
  * 
  * @author Werner
  * @version 27/10/2016
@@ -26,26 +31,24 @@ public class ListUtilities {
 	protected String saveListToTextFile;
 
 	/**
-	 * A no parameter constructor set to private in order for this class not to be
-	 * instantiated....
+	 * A no parameter constructor set to private in order for this class not to
+	 * be instantiated....
 	 */
 	private ListUtilities() {
 
 	}
 
-
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void sort(Comparable[] list) throws IllegalArgumentException, NullPointerException {
 
-			if (list == null) {
-				throw new NullPointerException("The array is null");
+		if (list == null) {
+			throw new NullPointerException("The array is null");
+		}
+		for (int i = 0; i < list.length; i++) {
+			if (list[i] == null) {
+				throw new IllegalArgumentException("The array contains a null");
 			}
-			for (int i =0; i < list.length; i++){
-				if (list[i] == null){
-					throw new IllegalArgumentException("The array contains a null");
-				}
-			}
-		
+		}
 
 		Comparable<?> minValue;
 		int minIndex;
@@ -68,7 +71,6 @@ public class ListUtilities {
 
 	}
 
-	
 	public static void saveListToTextFile(Object[] objects, String filename)
 			throws FileNotFoundException, UnsupportedEncodingException {
 		saveListToTextFile(objects, filename, false, CHARACTER_ENCODING);
@@ -94,13 +96,11 @@ public class ListUtilities {
 					outputFile.println(obj);
 		} catch (FileNotFoundException e) {
 			throw new FileNotFoundException("Error saving list! Unable to access the device " + filename);
+		} finally {
+			if (outputFile != null) // successfully opened
+				outputFile.close(); // flushes buffer and releases resources
 		}
-		finally {
-			if (outputFile != null)  //successfully opened
-				outputFile.close();  //flushes buffer and releases resources
-		}
-	}	
-	
+	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Comparable[] merge(Comparable[] list1, Comparable[] list2, String duplicateFileName) {
@@ -183,47 +183,90 @@ public class ListUtilities {
 					new OutputStreamWriter(new FileOutputStream(duplicateFileName, false), StandardCharsets.UTF_8)));
 
 			outputStream.println(comparable + "(merged)");
-			
-			
+
 		} catch (FileNotFoundException o) {
 			throw new IllegalArgumentException("The text file was not found ");
 		}
-		
-		finally{
-			if(outputStream != null)
+
+		finally {
+			if (outputStream != null)
 				outputStream.close();
 		}
 
 	}
+
 	/*
 	 * Sorts a list of objects in the given order.
 	 * 
-	 * Precondition:	Assumes that the list is not null 
-	 * and that the list's capacity is equal to the lists size.
+	 * Precondition: Assumes that the list is not null and that the list's
+	 * capacity is equal to the lists size.
 	 * 
 	 * @param list A list of objects
 	 * 
 	 * @param sortOrder an object that defines the sort order
 	 * 
-	 * @throws IllegalArgumentExeption when the parameter is not filled to capacity.
+	 * @throws IllegalArgumentExeption when the parameter is not filled to
+	 * capacity.
 	 * 
-	 * @throws	NullPointerExeption if any of the parameters are null
+	 * @throws NullPointerExeption if any of the parameters are null
 	 */
-	@SuppressWarnings({ "rawtypes"})
-	public static void sort(Comparable[] list, Comparator sortOrder){
-		 
+	@SuppressWarnings({ "rawtypes" })
+	public static void sort(Comparable[] list, Comparator sortOrder) {
+
 		if (list == null) {
 			throw new NullPointerException("One of your parameter is null");
 		}
-		
-		for (int i =0; i < list.length; i++){
-			if (list[i] == null){
+
+		for (int i = 0; i < list.length; i++) {
+			if (list[i] == null) {
 				throw new IllegalArgumentException("The array contains a null");
 			}
 		}
-		sort(list,sortOrder);
+		sort(list, sortOrder);
 	}
-	
-}
-			
 
+	// phase 4
+/**
+ * serializing out to a file
+ * @param object
+ * @param fileSpecification
+ * @throws IOException
+ */
+	public static void serializeObject(Object object, String fileSpecification) throws IOException {
+		ObjectOutputStream out = null;
+		try {
+			out = new ObjectOutputStream(new FileOutputStream(fileSpecification));
+			out.writeObject(object);
+		} catch (IOException e) {
+			// normally the exception would be logged to file then thrown
+			throw new IOException("Error serializing object to \n" + fileSpecification + " " + e);
+		} finally {
+			if (out != null)
+				out.close();
+		}
+	}
+/**
+ * De-serializing into an object
+ * @param fileSpecification
+ * @return
+ * @throws IOException
+ * @throws ClassNotFoundException
+ */
+	public static Object deserializeObject(String fileSpecification) throws IOException, ClassNotFoundException {
+		ObjectInputStream in = null;
+		try {
+			Object obj = null;
+			in = new ObjectInputStream(new FileInputStream(fileSpecification));
+			if (in != null)
+				obj = in.readObject();
+			return obj;
+		} catch (ClassNotFoundException | IOException e) {
+			// normally the exception would be logged to file then thrown
+			throw new IOException("Error deserializing object from " + fileSpecification + "\n" + e);
+		} finally {
+			if (in != null)
+				in.close();
+		}
+	}
+
+}
