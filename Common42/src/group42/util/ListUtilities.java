@@ -65,6 +65,8 @@ public class ListUtilities {
 				}
 
 			}
+			//if (minIndex != i)
+			
 			list[minIndex] = list[i];
 			list[i] = (Comparable<?>) minValue;
 		}

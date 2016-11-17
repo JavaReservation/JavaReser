@@ -1,5 +1,6 @@
 package group42.hotel.data;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.time.LocalDate;
@@ -34,8 +35,11 @@ public class ReservationListDB implements ReservationDAO {
 	 * parameter
 	 * 
 	 * @param listPersistenceObject
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
+	 * @throws FileNotFoundException 
 	 */
-	public ReservationListDB(ListPersistenceObject listPersistenceObject) {
+	public ReservationListDB(ListPersistenceObject listPersistenceObject) throws FileNotFoundException, ClassNotFoundException, IOException {
 
 		this.listPersistenceObject = listPersistenceObject;
 		this.factory = DawsonHotelFactory.DAWSON;
@@ -49,8 +53,11 @@ public class ReservationListDB implements ReservationDAO {
 	 * 
 	 * @param listPersistenceObject
 	 * @param factory
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
+	 * @throws FileNotFoundException 
 	 */
-	public ReservationListDB(ListPersistenceObject listPersistenceObject, HotelFactory factory) {
+	public ReservationListDB(ListPersistenceObject listPersistenceObject, HotelFactory factory) throws FileNotFoundException, ClassNotFoundException, IOException {
 
 		this.listPersistenceObject = listPersistenceObject;
 		this.factory = factory;
@@ -70,18 +77,14 @@ public class ReservationListDB implements ReservationDAO {
 	 */
 	@Override
 	public void add(Reservation reserv) throws DuplicateReservationException { // issues
-		// check if there is an overlap with the reservation we are trying to
-		// add to the database
 
-		Reservation copyReserv = factory.getReservationInstance(reserv);
-		// binary search and add the reserv paramater into the sorted
-		// reservation file
-		int index = search(this.database, copyReserv);
+		Reservation res = factory.getReservationInstance(reserv);
+		int index = search(this.database, res);
 		index = -(index);
 
 		if (index > 0) {
 			this.database.add(index, reserv);
-			System.out.println("Reservation succesfully added ==>" + this.database.get(index).toString());
+			System.out.println("Reservation added ==>" + this.database.get(index).toString());
 		} else {
 			throw new DuplicateReservationException("The reservation is already in our system");
 		}
@@ -89,24 +92,24 @@ public class ReservationListDB implements ReservationDAO {
 	}
 
 	private static int search(List<? extends Reservation> reservationList, Reservation res) {
-		int low = 0;
-		int high = reservationList.size() - 1;
-		int mid = (low + high) / 2;
+		int start = 0;
+		int end = reservationList.size() - 1;
+		int mid = (start + end) / 2;
 		int result;
 
-		while (low <= high) {
+		while (start <= end) {
 
-			mid = (low + high) / 2;
+			mid = (start + end) / 2;
 			result = reservationList.get(mid).compareTo(res);
 
 			if (result == 0) {
 				return mid;
 			} else if (result < 0) {
-				low = mid + 1;
+				start = mid + 1;
 			} else
-				high = mid - 1;
+				end = mid - 1;
 		}
-		return -(high + 1);
+		return -(end + 1);
 
 	}
 
