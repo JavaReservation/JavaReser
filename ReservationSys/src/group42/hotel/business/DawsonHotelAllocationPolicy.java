@@ -27,7 +27,8 @@ public class DawsonHotelAllocationPolicy {
 
 		int count;
 		int max = 0;
-		Room roomNumber = null;
+		//assume the first one is the most commen
+		Room roomNumber = availableRooms.get(0);
 
 		for (int i = 0; i < availableRooms.size(); i++) {
 			count = 0;
