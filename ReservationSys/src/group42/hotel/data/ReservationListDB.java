@@ -31,7 +31,7 @@ public class ReservationListDB implements ReservationDAO {
 	private final HotelFactory factory;
 
 	/**
-	 * Constructer that takes in the interface ListPersistenceObject as a
+	 * Constructor that takes in the interface ListPersistenceObject as a
 	 * parameter
 	 * 
 	 * @param listPersistenceObject
@@ -48,7 +48,7 @@ public class ReservationListDB implements ReservationDAO {
 	}
 
 	/**
-	 * Overloaded constructer that takes in the ListPersistenceObject interface
+	 * Overloaded constructor that takes in the ListPersistenceObject interface
 	 * and the HotelFactory interface
 	 * 
 	 * @param listPersistenceObject

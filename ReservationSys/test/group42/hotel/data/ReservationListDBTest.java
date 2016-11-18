@@ -23,7 +23,7 @@ import group42.hotel.business.DawsonReservation;
  */
 public class ReservationListDBTest {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
 
 		// These three String variables are used to locate the text files with
 		// the information about our customers

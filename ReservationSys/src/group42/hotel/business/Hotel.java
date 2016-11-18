@@ -13,20 +13,29 @@ import dw317.hotel.data.DuplicateCustomerException;
 import dw317.hotel.data.NonExistingCustomerException;
 import dw317.hotel.data.NonExistingReservationException;
 import dw317.hotel.data.interfaces.CustomerDAO;
+import dw317.hotel.data.interfaces.ListPersistenceObject;
 import dw317.hotel.data.interfaces.ReservationDAO;
 import dw317.hotel.data.interfaces.RoomDAO;
+import group42.hotel.data.ReservationListDB;
 
-public class Hotel {
+/**
+ * This class will allow 
+ * @author Keylen
+ *
+ */
+public class Hotel extends java.util.Observable {
 
 	private final HotelFactory factory;
 	private final CustomerDAO customers;
 	private final ReservationDAO reservations;
 	private static final long serialVersionUID = 42031768871L;
 
-	public Hotel (HotelFactory factory, RoomDAO rooms, CustomerDAO customers,
+	public Hotel (HotelFactory factory, CustomerDAO customers,
 			ReservationDAO reservations)
 	{
-		
+		this.factory = factory;
+		this.customers = customers;
+		this.reservations = (ReservationDAO) ListPersistenceObject.getReservationDatabase();
 	}
 	
 	/**
