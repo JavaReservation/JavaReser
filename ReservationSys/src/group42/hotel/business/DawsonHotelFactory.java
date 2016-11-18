@@ -51,7 +51,7 @@ public enum DawsonHotelFactory implements HotelFactory {
 
 	@Override
 	public AllocationPolicy getAllocationPolicy(ReservationDAO reservations) {
-		return new DawsonHotelAllocationPolicy(reservations);
+	return null;//return new DawsonHotelAllocationPolicy(reservations);	I had to comment this out to test my stuff
 	}
 
 }

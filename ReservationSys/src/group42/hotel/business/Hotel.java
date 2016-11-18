@@ -35,7 +35,7 @@ public class Hotel extends java.util.Observable {
 	{
 		this.factory = factory;
 		this.customers = customers;
-		this.reservations = (ReservationDAO) ListPersistenceObject.getReservationDatabase();
+		this.reservations = reservations;
 	}
 	
 	/**
@@ -46,7 +46,13 @@ public class Hotel extends java.util.Observable {
 	public void cancelReservation(Reservation reservation)
 	throws NonExistingReservationException 
 	{
-		
+		try{
+			reservations.cancel(reservation);
+		}
+		catch(NonExistingReservationException ner)
+		{
+			System.out.println("The reservation does not exist.");
+		}
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package group42.hotel.data;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +22,14 @@ public class RoomListDB implements RoomDAO {
 	/**
 	 * Constructor requires a ListPersistenceObject to read from file.
 	 * @param listPersistenceObject
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
+	 * @throws FileNotFoundException 
 	 */
-	public RoomListDB (ListPersistenceObject listPersistenceObject) {
+	public RoomListDB (ListPersistenceObject listPersistenceObject) throws FileNotFoundException, ClassNotFoundException, IOException {
 		this.listPersistenceObject = listPersistenceObject;
-		this.database = this.listPersistenceObject.getRoomDatabase();
+		this.database = this.listPersistenceObject.getRoomDatabase();   
+		
 	}
 
 	@Override
