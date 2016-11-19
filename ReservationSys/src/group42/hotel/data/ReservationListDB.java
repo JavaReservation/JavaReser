@@ -35,11 +35,12 @@ public class ReservationListDB implements ReservationDAO {
 	 * parameter
 	 * 
 	 * @param listPersistenceObject
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws FileNotFoundException
 	 */
-	public ReservationListDB(ListPersistenceObject listPersistenceObject) throws FileNotFoundException, ClassNotFoundException, IOException {
+	public ReservationListDB(ListPersistenceObject listPersistenceObject)
+			throws FileNotFoundException, ClassNotFoundException, IOException {
 
 		this.listPersistenceObject = listPersistenceObject;
 		this.factory = DawsonHotelFactory.DAWSON;
@@ -53,11 +54,12 @@ public class ReservationListDB implements ReservationDAO {
 	 * 
 	 * @param listPersistenceObject
 	 * @param factory
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws FileNotFoundException
 	 */
-	public ReservationListDB(ListPersistenceObject listPersistenceObject, HotelFactory factory) throws FileNotFoundException, ClassNotFoundException, IOException {
+	public ReservationListDB(ListPersistenceObject listPersistenceObject, HotelFactory factory)
+			throws FileNotFoundException, ClassNotFoundException, IOException {
 
 		this.listPersistenceObject = listPersistenceObject;
 		this.factory = factory;
@@ -236,14 +238,18 @@ public class ReservationListDB implements ReservationDAO {
 		List<Room> res = new ArrayList<Room>();
 
 		for (int i = 0; i < this.database.size(); i++) {
-			if (!(this.database.get(i).getCheckInDate().isBefore(checkin))
-					&& !(this.database.get(i).getCheckOutDate().isAfter(checkout))) {
+			if (this.database.get(i).getCheckInDate().isBefore(checkin)
+					&& this.database.get(i).getCheckOutDate().isBefore(checkin)
+					|| this.database.get(i).getCheckInDate().isAfter(checkout)
+							&& this.database.get(i).getCheckOutDate().isAfter(checkout)) {
+
+				// !(this.database.get(i).getCheckInDate().isBefore(checkin))&&
+				// !(this.database.get(i).getCheckOutDate().isAfter(checkout))
 
 				res.add(this.database.get(i).getRoom());
 
 			}
 		}
-
 		return res;
 	}
 
@@ -267,9 +273,11 @@ public class ReservationListDB implements ReservationDAO {
 		List<Room> rooms = new ArrayList<Room>();
 
 		for (int i = 0; i < this.database.size(); i++) {
-			if (!(this.database.get(i).getCheckInDate().isBefore(checkin))
-					&& !(this.database.get(i).getCheckOutDate().isAfter(checkout))
-					&& (this.database.get(i).getRoom().getRoomType().equals(roomType))) {
+			if (this.database.get(i).getCheckInDate().isBefore(checkin)
+					&& this.database.get(i).getCheckOutDate().isBefore(checkin)
+					|| this.database.get(i).getCheckInDate().isAfter(checkout)
+							&& this.database.get(i).getCheckOutDate().isAfter(checkout)
+							&& (this.database.get(i).getRoom().getRoomType().equals(roomType))) {
 
 				if (this.database.get(i).getRoom().equals(this.allRooms.get(i)))
 					rooms.add(this.database.get(i).getRoom());
@@ -286,7 +294,7 @@ public class ReservationListDB implements ReservationDAO {
 	 */
 	@Override
 	public void clearAllPast() {
-		
+
 		for (int i = 0; i < this.database.size(); i++) {
 			if (this.database.get(i).getCheckOutDate().isBefore(LocalDate.now())) {
 				this.database.remove(i);
