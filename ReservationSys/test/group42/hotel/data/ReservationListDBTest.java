@@ -35,28 +35,28 @@ public class ReservationListDBTest {
 		ReservationListDB b = new ReservationListDB(a);
 
 		// for (int i = 0; i < 5; i++)
-		testingToString(b);
+	//	testingToString(b);
 
 		// testing the add method ====
-		testAddMethod(b);
+		//testAddMethod(b);
 
 		// testing getReservations method
-		testGetReservations(b);
+	//	testGetReservations(b);
 
 		// testing the canle method ====
-		testCancle(b);
+	//	testCancle(b);
 
 		// testing get free rooms method ====
 		testGetFreeRoom(b);
 
 		// testing getFreeRooms with roomtype param ===
-		testGetFreeRoomsType(b);
+	//	testGetFreeRoomsType(b);
 
 		// teasting the clearAllPast method
-		testClearAllPast(b);
+		//testClearAllPast(b);
 
 		// testing the disconnect method
-		testDisconnect(b);
+		//testDisconnect(b);
 	}
 
 	private static void testingToString(ReservationListDB b) {
@@ -66,7 +66,7 @@ public class ReservationListDBTest {
 		System.out.println("end of toString testing \n");
 
 	}
-
+/**
 	public static void testAddMethod(ReservationListDB resList) {
 
 		System.out.println("------Testing the add method------");
@@ -99,6 +99,7 @@ public class ReservationListDBTest {
 
 		System.out.println("end of testAddMethod testing \n");
 	}
+	**/
 
 	private static void testDisconnect(ReservationListDB list) throws IOException {
 
@@ -150,7 +151,7 @@ public class ReservationListDBTest {
 
 		System.out.println("end of testGetReservations testing \n");
 	}
-
+	/**
 	private static void testCancle(ReservationListDB b) {
 
 		System.out.println("------Testing the cancle method------");
@@ -185,27 +186,31 @@ public class ReservationListDBTest {
 		System.out.println("end of testCancle testing \n");
 
 	}
-
+*/
 	private static void testGetFreeRoom(ReservationListDB b) {
 
 		System.out.println("testing the get free rooms method");
 
-		System.out.println("case 1 when checkin date is 2015, 9, 27 untill 2016, 9, 30");
+		System.out.println("case 1 when checkin date is 2015, 9, 27 untill 2015, 9, 30");
 		List<Room> roomList = new ArrayList<Room>();
-		roomList = b.getFreeRooms(LocalDate.of(2015, 9, 27), LocalDate.of(2016, 9, 30));
+		roomList = b.getFreeRooms(LocalDate.of(2015, 9, 27), LocalDate.of(2015, 9, 30));
 
 		for (int i = 0; i < roomList.size(); i++) {
-			System.out.println(roomList.get(i).toString());
+			//System.out.println(roomList.get(i).toString());
 		}
 
 		roomList = new ArrayList<Room>();
+		/**
 		System.out.println("case 2 all rooms available between 2012, 9, 27 and 2014, 9, 30 with room type normal");
 		roomList = b.getFreeRooms(LocalDate.of(2012, 9, 27), LocalDate.of(2014, 9, 30));
 
 		for (int i = 0; i < roomList.size(); i++) {
 
 			System.out.println(roomList.get(i).toString());
-		}
+			}
+			
+			*/
+		
 		System.out.println("end of testGetFreeRoom testing \n");
 	}
 

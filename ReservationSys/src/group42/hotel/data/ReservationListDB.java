@@ -15,6 +15,7 @@ import dw317.hotel.data.NonExistingReservationException;
 import dw317.hotel.data.interfaces.ListPersistenceObject;
 import dw317.hotel.data.interfaces.ReservationDAO;
 import group42.hotel.business.DawsonHotelFactory;
+import group42.hotel.business.DawsonReservation;
 import dw317.hotel.business.RoomType;
 import dw317.hotel.business.interfaces.HotelFactory;
 
@@ -206,12 +207,12 @@ public class ReservationListDB implements ReservationDAO {
 
 		for (int i = 0; i < this.database.size(); i++) {
 
-			System.out.println(this.database.get(i).toString());
+			// System.out.println(this.database.get(i).toString());
 
 			if (database.get(i).getCheckInDate().isAfter(checkin)
 					|| database.get(i).getCheckOutDate().isBefore(checkout)) {
 
-				System.out.println(this.database.get(i).toString());
+				// System.out.println(this.database.get(i).toString());
 				// res.add(database.get(i).getRoom());
 
 			}
@@ -236,19 +237,29 @@ public class ReservationListDB implements ReservationDAO {
 	public List<Room> getFreeRooms(LocalDate checkin, LocalDate checkout) {
 
 		List<Room> res = new ArrayList<Room>();
+		int i = 0;
+		int b =0;
 
-		for (int i = 0; i < this.database.size(); i++) {
-			if (this.database.get(i).getCheckInDate().isBefore(checkin)
-					&& this.database.get(i).getCheckOutDate().isBefore(checkin)
-					|| this.database.get(i).getCheckInDate().isAfter(checkout)
-							&& this.database.get(i).getCheckOutDate().isAfter(checkout)) {
+		for (Reservation r : this.database) {
 
-				// !(this.database.get(i).getCheckInDate().isBefore(checkin))&&
-				// !(this.database.get(i).getCheckOutDate().isAfter(checkout))
+			if (this.database.get(i).getCheckInDate().isBefore(checkout)
+					&& this.database.get(i).getCheckOutDate().isBefore(checkout)) {
 
+				//System.out.println(this.database.get(i).getRoom());
 				res.add(this.database.get(i).getRoom());
-
+				
+				res.get(b).getRoomNumber();
+				b++;
 			}
+			// !(this.database.get(i).getCheckInDate().isBefore(checkin))&&
+			// !(this.database.get(i).getCheckOutDate().isAfter(checkout))
+			i++;
+			/**
+			 * this.database.get(i).getCheckInDate().isBefore(checkin) &&
+			 * this.database.get(i).getCheckOutDate().isBefore(checkin) ||
+			 * this.database.get(i).getCheckInDate().isAfter(checkout) &&
+			 * this.database.get(i).getCheckOutDate().isAfter(checkout)
+			 */
 		}
 		return res;
 	}
