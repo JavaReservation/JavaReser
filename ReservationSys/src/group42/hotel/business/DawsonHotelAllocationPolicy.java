@@ -2,6 +2,7 @@ package group42.hotel.business;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -23,28 +24,51 @@ public class DawsonHotelAllocationPolicy {
 
 	public Room freeRoom(LocalDate checkIn, LocalDate checkOut, RoomType roomType) {
 
-		List<Room> availableRooms = this.resDAO.getFreeRooms(checkIn, checkOut, roomType);
+		List<Room> list = this.resDAO.getFreeRooms(checkIn, checkOut, roomType);
+		// helper listArray
+		List<Room> dubs = new ArrayList<Room>();
+		// helper variables
+		int count = 1, tempCount;
+		Room temp;
 
-		int count;
-		int max = 0;
-		//assume the first one is the most commen
-		Room roomNumber = availableRooms.get(0);
+		// assume the first index is the bes sutted
+		Room room = list.get(0);
 
-		for (int i = 0; i < availableRooms.size(); i++) {
-			count = 0;
-			for (int j = i; j < availableRooms.size(); j++) {
-				if (availableRooms.get(i).getFloor() == availableRooms.get(j).getFloor()) {
-					count++;
+		for (int i = 0; i < list.size() - 1; i++) {
+			tempCount = 0;
+			temp = list.get(i);
+
+			for (int j = 1; j < list.size(); j++) {
+				if (list.get(i).getFloor() == list.get(j).getFloor()) {
+					tempCount++;
 				}
 			} // end of j loop
+			if (tempCount > count) {
 
-			if (max < count) {
-				max = count;
-				roomNumber = availableRooms.get(i);
+				if (count == tempCount - 1) {
+					dubs.add(temp);
+					dubs.add(room);
+				}
+
+				room = temp;
+				// System.out.println(room + " a " + temp);
+				count = tempCount;
 			}
 		} // end of i loop
 
-		return roomNumber;
-	}
+		Room result = room;
+		Room tempResult;
 
+		if (dubs.size() != 0) {
+			result = dubs.get(0);
+			for (int i = 0; i < dubs.size(); i++) {
+				tempResult = dubs.get(i);
+				if (result.getFloor() > tempResult.getFloor())
+					room = dubs.get(i);
+
+			}
+		}
+
+		return room;
+	}
 }
