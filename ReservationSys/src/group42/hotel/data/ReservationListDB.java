@@ -209,11 +209,10 @@ public class ReservationListDB implements ReservationDAO {
 
 			// System.out.println(this.database.get(i).toString());
 
-			if (database.get(i).getCheckInDate().isAfter(checkin)
-					|| database.get(i).getCheckOutDate().isBefore(checkout)) {
+			if (database.get(i).getCheckInDate().isBefore(checkout)
+					&& database.get(i).getCheckOutDate().isAfter(checkin)) {
 
-				// System.out.println(this.database.get(i).toString());
-				// res.add(database.get(i).getRoom());
+				res.add(database.get(i).getRoom());
 
 			}
 		}
@@ -237,30 +236,19 @@ public class ReservationListDB implements ReservationDAO {
 	public List<Room> getFreeRooms(LocalDate checkin, LocalDate checkout) {
 
 		List<Room> res = new ArrayList<Room>();
-		int i = 0;
-		int b =0;
 
-		for (Reservation r : this.database) {
+		List<Room> reservedRooms = this.getReservedRooms(checkin, checkout);
 
-			if (this.database.get(i).getCheckInDate().isBefore(checkout)
-					&& this.database.get(i).getCheckOutDate().isBefore(checkout)) {
+		int b = 0;
 
-				//System.out.println(this.database.get(i).getRoom());
-				res.add(this.database.get(i).getRoom());
-				
-				res.get(b).getRoomNumber();
-				b++;
-			}
-			// !(this.database.get(i).getCheckInDate().isBefore(checkin))&&
-			// !(this.database.get(i).getCheckOutDate().isAfter(checkout))
-			i++;
-			/**
-			 * this.database.get(i).getCheckInDate().isBefore(checkin) &&
-			 * this.database.get(i).getCheckOutDate().isBefore(checkin) ||
-			 * this.database.get(i).getCheckInDate().isAfter(checkout) &&
-			 * this.database.get(i).getCheckOutDate().isAfter(checkout)
-			 */
+		for (int i = 0; i < reservedRooms.size(); i++) {
+
+			for (int y = 0; y < this.allRooms.size(); y++)
+				if (reservedRooms.get(i).equals(this.allRooms.get(y)))
+
+					System.out.println(this.allRooms.get(y));
 		}
+
 		return res;
 	}
 
@@ -284,14 +272,9 @@ public class ReservationListDB implements ReservationDAO {
 		List<Room> rooms = new ArrayList<Room>();
 
 		for (int i = 0; i < this.database.size(); i++) {
-			if (this.database.get(i).getCheckInDate().isBefore(checkin)
-					&& this.database.get(i).getCheckOutDate().isBefore(checkin)
-					|| this.database.get(i).getCheckInDate().isAfter(checkout)
-							&& this.database.get(i).getCheckOutDate().isAfter(checkout)
-							&& (this.database.get(i).getRoom().getRoomType().equals(roomType))) {
+			if (true) {
 
-				if (this.database.get(i).getRoom().equals(this.allRooms.get(i)))
-					rooms.add(this.database.get(i).getRoom());
+				rooms.add(this.database.get(i).getRoom());
 
 			}
 		}
@@ -309,6 +292,7 @@ public class ReservationListDB implements ReservationDAO {
 		for (int i = 0; i < this.database.size(); i++) {
 			if (this.database.get(i).getCheckOutDate().isBefore(LocalDate.now())) {
 				this.database.remove(i);
+				i--;
 			}
 		}
 

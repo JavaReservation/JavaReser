@@ -41,19 +41,19 @@ public class ReservationListDBTest {
 		//testAddMethod(b);
 
 		// testing getReservations method
-	//	testGetReservations(b);
+		//testGetReservations(b);
 
 		// testing the canle method ====
 	//	testCancle(b);
 
 		// testing get free rooms method ====
-		testGetFreeRoom(b);
+	//	testGetFreeRoom(b);
 
 		// testing getFreeRooms with roomtype param ===
 	//	testGetFreeRoomsType(b);
 
 		// teasting the clearAllPast method
-		//testClearAllPast(b);
+		testClearAllPast(b);
 
 		// testing the disconnect method
 		//testDisconnect(b);
@@ -194,9 +194,11 @@ public class ReservationListDBTest {
 		System.out.println("case 1 when checkin date is 2015, 9, 27 untill 2015, 9, 30");
 		List<Room> roomList = new ArrayList<Room>();
 		roomList = b.getFreeRooms(LocalDate.of(2015, 9, 27), LocalDate.of(2015, 9, 30));
-
+		System.out.println(roomList.size());
+		
 		for (int i = 0; i < roomList.size(); i++) {
-			//System.out.println(roomList.get(i).toString());
+			
+			System.out.println(roomList.get(i).toString());
 		}
 
 		roomList = new ArrayList<Room>();
@@ -250,7 +252,7 @@ public class ReservationListDBTest {
 			System.out.println(a.getMessage());
 		}
 
-		System.out.println("Printing the toString after the clearAll method was called : \n");
+		System.out.println("\nPrinting the toString after the clearAll method was called : \n");
 		System.out.println(b.toString());
 	}
 
