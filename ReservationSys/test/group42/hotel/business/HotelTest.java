@@ -123,7 +123,7 @@ public class HotelTest {
 	public static void testFindCustomer(Hotel hotelInstance, Reservation reser, Reservation reserFalse)
 	{
 		System.out.println("--------------Testing the findCustomer method----------------\n");
-		System.out.println("\tThis customer will be found");
+		System.out.println("Valid data");
 		try {
 			hotelInstance.findCustomer(reser.getCustomer().getEmail().getAddress());
 		}
@@ -131,7 +131,7 @@ public class HotelTest {
 		System.out.println(nec.getMessage());
 		}
 		
-		System.out.println("\tThis customer should NOT be found");
+		System.out.println("This customer should NOT be found");
 		try {
 			hotelInstance.findCustomer(reserFalse.getCustomer().getEmail().getAddress());
 		}
