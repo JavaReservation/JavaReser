@@ -15,15 +15,11 @@ import dw317.hotel.data.DuplicateReservationException;
 import dw317.hotel.data.NonExistingCustomerException;
 import dw317.hotel.data.NonExistingReservationException;
 import dw317.hotel.data.interfaces.CustomerDAO;
-import dw317.hotel.data.interfaces.ListPersistenceObject;
 import dw317.hotel.data.interfaces.ReservationDAO;
-import dw317.hotel.data.interfaces.RoomDAO;
 import dw317.lib.Email;
 import dw317.lib.creditcard.AbstractCreditCard;
 import dw317.lib.creditcard.CreditCard;
 import dw317.lib.creditcard.CreditCard.CardType;
-import group42.hotel.data.ReservationListDB;
-import group42.hotel.data.SequentialTextFileList;
 
 /**
  * This class will allow

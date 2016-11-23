@@ -5,17 +5,17 @@ import java.io.IOException;
 import dw317.hotel.business.interfaces.Customer;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.business.interfaces.Room;
+import dw317.hotel.data.NonExistingReservationException;
 import dw317.hotel.data.interfaces.CustomerDAO;
 import dw317.hotel.data.interfaces.ListPersistenceObject;
 import dw317.hotel.data.interfaces.ReservationDAO;
 import group42.hotel.data.CustomerListDB;
 import group42.hotel.data.ReservationListDB;
-import group42.hotel.data.RoomListDB;
 import group42.hotel.data.SequentialTextFileList;
 
 public class HotelTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NonExistingReservationException {
 		String rooms = "ReservationSys\\datafiles\\sorted\\rooms.txt";
 		String cus = "ReservationSys\\datafiles\\database\\customers.txt";
 		String res = "ReservationSys\\datafiles\\database\\reservations.txt";
@@ -44,28 +44,30 @@ public class HotelTest {
 
 		
 		Hotel hotelInstance = new Hotel(DawsonHotelFactory.DAWSON, customerList, reservesList);
-		System.out.println("\n--------------Testing on a non exsitent reservation----------");
-		testCancelReservation(hotelInstance, reser);
-		System.out.println("\n--------------Testing on a reservation that exists----------");
+		
 
-		//testCancelReservation(hotelInstance, reserA);
-		testCloseHotel(hotelInstance, reserA);
-		//testCreateReservation();
-		//testFindCustomer();
-		//testFindReservations();
-		//testRegisterCustomer();
-		//testUpdateCreditCard();
+		testCancelReservation(hotelInstance, reservesList, reserA);
+		//testCloseHotel(hotelInstance, reserA);
+		//testCreateReservation(hotelInstance, reserA);
+		//testFindCustomer(hotelInstance, reserA);
+		//testFindReservations(hotelInstance, reserA);
+		//testRegisterCustomer(hotelInstance, reserA);
+		//testUpdateCreditCard(hotelInstance, reserA);
 		
 	}
 	
-	public static void testCancelReservation(Hotel hotelInstance, Reservation reser)
+	public static void testCancelReservation(Hotel hotelInstance, ReservationDAO reservesList, Reservation reser) 
+			throws NonExistingReservationException
 	{
 		try{
+			System.out.print(reservesList);
+			System.out.println("\n------------------After--------------\n");
 			hotelInstance.cancelReservation(reser);
-			} catch(Exception e){
-				System.out.print("Error with canceling the reservation");
+			} catch(NonExistingReservationException e){
+				System.out.print("\n\tThat reservation does not exist");
 			}
-		System.out.print("After: ");
+		System.out.print(reservesList);
+		
 	}
 	
 	public static void testCloseHotel(Hotel hotelInstance, Reservation reser)
@@ -77,6 +79,10 @@ public class HotelTest {
 			}
 	}
 	
+	public static void testCreateReservation(Hotel hotelInstance, Reservation reser)
+	{
+		
+	}
 	
 
 }
