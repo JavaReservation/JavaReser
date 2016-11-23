@@ -241,12 +241,10 @@ public class ReservationListDB implements ReservationDAO {
 
 		int b = 0;
 
-		for (int i = 0; i < reservedRooms.size(); i++) {
+		for (int i = 0; i < this.allRooms.size(); i++) {
+			if (reservedRooms.equals(this.allRooms.))
 
-			for (int y = 0; y < this.allRooms.size(); y++)
-				if (reservedRooms.get(i).equals(this.allRooms.get(y)))
-
-					System.out.println(this.allRooms.get(y));
+			
 		}
 
 		return res;
