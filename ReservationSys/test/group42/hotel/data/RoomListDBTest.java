@@ -1,6 +1,7 @@
 package group42.hotel.data;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import dw317.hotel.business.RoomType;
 
 public class RoomListDBTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException {
 		testGetRooms();
 		testToString();
 	}
@@ -69,7 +70,7 @@ public class RoomListDBTest {
 		}
 	}
 
-	private static void testGetRooms() {
+	private static void testGetRooms() throws FileNotFoundException, ClassNotFoundException, IOException {
 		setup();
 		SequentialTextFileList file = new SequentialTextFileList
 				("testfiles/testRooms.txt", "testfiles/testCustomers.txt",
@@ -94,7 +95,7 @@ public class RoomListDBTest {
 		teardown();
 	}
 
-	private static void testToString(){
+	private static void testToString() throws FileNotFoundException, ClassNotFoundException, IOException{
 		setup();
 		SequentialTextFileList file = new SequentialTextFileList
 				("testfiles/testRooms.txt", "testfiles/testCustomers.txt",

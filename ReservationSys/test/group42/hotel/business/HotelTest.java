@@ -46,8 +46,8 @@ public class HotelTest {
 		testCancelReservation(hotelInstance, reser);
 		System.out.println("\n--------------Testing on a reservation that exists----------");
 
-		testCancelReservation(hotelInstance, reserA);
-		//testCloseHotel();
+		//testCancelReservation(hotelInstance, reserA);
+		testCloseHotel();
 		//testCreateReservation();
 		//testFindCustomer();
 		//testFindReservations();
@@ -64,6 +64,11 @@ public class HotelTest {
 				System.out.print("Error");
 			}
 		System.out.print("After: ");
+	}
+	
+	public static void testCloseHotel()
+	{
+		
 	}
 
 }
