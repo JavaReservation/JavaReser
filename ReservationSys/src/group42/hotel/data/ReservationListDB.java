@@ -176,10 +176,8 @@ public class ReservationListDB implements ReservationDAO {
 			// System.out.println(this.database.get(i).toString());
 
 			if (this.database.get(i).compareTo(reserv) == 0) {
-				// this.database.remove(i);
+				this.database.remove(i);
 				found++;
-				System.out.println("Found Reservaiton " + i);
-				System.out.println(this.database.get(i));
 			}
 		}
 		if (found == 0) {
@@ -208,7 +206,7 @@ public class ReservationListDB implements ReservationDAO {
 		for (int i = 0; i < this.database.size(); i++) {
 
 			// System.out.println(this.database.get(i).toString());
-
+			System.out.println("Database: "  +database.get(i).getCheckInDate() + "\tGiven: " + checkout);
 			if (database.get(i).getCheckInDate().isBefore(checkout)
 					&& database.get(i).getCheckOutDate().isAfter(checkin)) {
 
@@ -216,6 +214,7 @@ public class ReservationListDB implements ReservationDAO {
 
 			}
 		}
+		System.out.println(res.size());
 
 		return res;
 	}
@@ -239,15 +238,38 @@ public class ReservationListDB implements ReservationDAO {
 
 		List<Room> reservedRooms = this.getReservedRooms(checkin, checkout);
 
-		int b = 0;
 
-		for (int i = 0; i < this.allRooms.size(); i++) {
-			if (reservedRooms.equals(this.allRooms.))
+		/*for (int i = 0; i < this.allRooms.size(); i++) {
+			//System.out.println(this.allRooms.get(i));
 
-			
+			for (int j = 0; j < reservedRooms.size(); j++) {
+				
+				
+				if (reservedRooms.get(j).equals(this.allRooms.get(i))){
+					this.allRooms.get(i);
+					
+					res.add(this.allRooms.get(i));
+			}
 		}
+			//System.out.println("\n");
 
-		return res;
+	}*/
+		
+		for (int i = 0; i < this.allRooms.size(); i++){
+			
+			for (int j = 0; j < reservedRooms.size(); j++){
+				
+				if (!(reservedRooms.get(j).equals(this.allRooms.get(i)))){
+					res.add(this.allRooms.get(i));
+				}								
+			}
+		}
+		
+				
+			
+		
+	return res;
+
 	}
 
 	/**

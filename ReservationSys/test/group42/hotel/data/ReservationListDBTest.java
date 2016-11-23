@@ -47,13 +47,13 @@ public class ReservationListDBTest {
 	//	testCancle(b);
 
 		// testing get free rooms method ====
-	//	testGetFreeRoom(b);
+		testGetFreeRoom(b);
 
 		// testing getFreeRooms with roomtype param ===
 	//	testGetFreeRoomsType(b);
 
 		// teasting the clearAllPast method
-		testClearAllPast(b);
+		//testClearAllPast(b);
 
 		// testing the disconnect method
 		//testDisconnect(b);
