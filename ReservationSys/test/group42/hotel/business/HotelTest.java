@@ -1,5 +1,7 @@
 package group42.hotel.business;
 
+import java.io.IOException;
+
 import dw317.hotel.business.interfaces.Customer;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.business.interfaces.Room;
@@ -47,7 +49,7 @@ public class HotelTest {
 		System.out.println("\n--------------Testing on a reservation that exists----------");
 
 		//testCancelReservation(hotelInstance, reserA);
-		testCloseHotel();
+		testCloseHotel(hotelInstance, reserA);
 		//testCreateReservation();
 		//testFindCustomer();
 		//testFindReservations();
@@ -61,14 +63,20 @@ public class HotelTest {
 		try{
 			hotelInstance.cancelReservation(reser);
 			} catch(Exception e){
-				System.out.print("Error");
+				System.out.print("Error with canceling the reservation");
 			}
 		System.out.print("After: ");
 	}
 	
-	public static void testCloseHotel()
+	public static void testCloseHotel(Hotel hotelInstance, Reservation reser)
 	{
-		
+		try{
+			hotelInstance.closeHotel();
+			} catch(IOException e){
+				System.out.print("Error closing the hotel");
+			}
 	}
+	
+	
 
 }

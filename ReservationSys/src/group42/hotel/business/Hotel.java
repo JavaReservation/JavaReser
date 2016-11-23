@@ -65,8 +65,8 @@ public class Hotel extends java.util.Observable {
 	 *             If there is a problem closing the hotel files.
 	 */
 	public void closeHotel() throws IOException {
-		reservations.disconnect();
 		reservations.clearAllPast();// Clears all past reservations
+		reservations.disconnect();
 	}
 
 	/**
