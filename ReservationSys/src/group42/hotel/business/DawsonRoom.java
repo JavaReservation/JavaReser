@@ -107,21 +107,20 @@ public class DawsonRoom implements Room {
 		if (obj == null)
 			return false;
 
-		if (obj instanceof Room) {
+		if (!(obj instanceof Room)) {
 
-			Room room = (Room) obj;
-
-			if (!this.equals(room.getRoomNumber()))
-				return false;
-
-			if (!this.equals(room.getRoomType()))
-				return false;
-
-			return true;
-
+			return false;
 		}
+		Room room = (Room) obj;
+
+		if (!this.equals(room.getRoomNumber()))
+			return false;
+
+		if (!this.equals(room.getRoomType()))
+			return false;
 
 		return true;
+
 	}
 
 	/**

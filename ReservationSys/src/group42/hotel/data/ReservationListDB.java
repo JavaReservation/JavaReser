@@ -88,7 +88,9 @@ public class ReservationListDB implements ReservationDAO {
 		if (index > 0) {
 			this.database.add(index, reserv);
 			System.out.println("Reservation added ==>" + this.database.get(index).toString());
+
 		} else {
+			// System.out.println(" binary search ==> " + index);
 			throw new DuplicateReservationException("The reservation is already in our system");
 		}
 
@@ -112,7 +114,9 @@ public class ReservationListDB implements ReservationDAO {
 			} else
 				end = mid - 1;
 		}
-		return -(end + 1);
+
+		// System.out.println(" binary search ==> " + (-(start + 1)));
+		return -(start + 1);
 
 	}
 
@@ -201,20 +205,21 @@ public class ReservationListDB implements ReservationDAO {
 	@Override
 	public List<Room> getReservedRooms(LocalDate checkin, LocalDate checkout) {
 
+		if (checkin.isAfter(checkout)) {
+			throw new IllegalArgumentException("The check in date you have entered is befor the check out date");
+		}
+
 		List<Room> res = new ArrayList<Room>();
 
 		for (int i = 0; i < this.database.size(); i++) {
 
-			// System.out.println(this.database.get(i).toString());
-			System.out.println("Database: "  +database.get(i).getCheckInDate() + "\tGiven: " + checkout);
-			if (database.get(i).getCheckInDate().isBefore(checkout)
-					&& database.get(i).getCheckOutDate().isAfter(checkin)) {
+			if (this.database.get(i).getCheckInDate().isBefore(checkout)
+					&& this.database.get(i).getCheckOutDate().isAfter(checkin)) {
 
 				res.add(database.get(i).getRoom());
 
 			}
 		}
-		System.out.println(res.size());
 
 		return res;
 	}
@@ -234,41 +239,27 @@ public class ReservationListDB implements ReservationDAO {
 	@Override
 	public List<Room> getFreeRooms(LocalDate checkin, LocalDate checkout) {
 
-		List<Room> res = new ArrayList<Room>();
+		List<Room> rooms = new ArrayList<Room>();
 
 		List<Room> reservedRooms = this.getReservedRooms(checkin, checkout);
 
-
-		/*for (int i = 0; i < this.allRooms.size(); i++) {
-			//System.out.println(this.allRooms.get(i));
-
+		for (int i = 0; i < this.allRooms.size(); i++) {
+			int skip = 1;
 			for (int j = 0; j < reservedRooms.size(); j++) {
-				
-				
-				if (reservedRooms.get(j).equals(this.allRooms.get(i))){
-					this.allRooms.get(i);
-					
-					res.add(this.allRooms.get(i));
-			}
-		}
-			//System.out.println("\n");
 
-	}*/
-		
-		for (int i = 0; i < this.allRooms.size(); i++){
-			
-			for (int j = 0; j < reservedRooms.size(); j++){
-				
-				if (!(reservedRooms.get(j).equals(this.allRooms.get(i)))){
-					res.add(this.allRooms.get(i));
-				}								
+				if (this.allRooms.get(i).equals(reservedRooms.get(j))) {
+					skip = -1;
+					break;
+				}
+			} // end of j
+
+			if (skip != -1) {
+				rooms.add(this.allRooms.get(i));
 			}
-		}
-		
-				
-			
-		
-	return res;
+
+		} // end of i
+
+		return rooms;
 
 	}
 
@@ -289,13 +280,11 @@ public class ReservationListDB implements ReservationDAO {
 	@Override
 	public List<Room> getFreeRooms(LocalDate checkin, LocalDate checkout, RoomType roomType) {
 
-		List<Room> rooms = new ArrayList<Room>();
-
-		for (int i = 0; i < this.database.size(); i++) {
-			if (true) {
-
-				rooms.add(this.database.get(i).getRoom());
-
+		List<Room> rooms = this.getFreeRooms(checkin, checkout);
+		for (int i = 0; i < rooms.size(); i++) {
+			if (!rooms.get(i).getRoomType().equals(roomType)) {
+				rooms.remove(i);
+				i--;
 			}
 		}
 

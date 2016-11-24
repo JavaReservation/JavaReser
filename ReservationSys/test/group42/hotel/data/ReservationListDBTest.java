@@ -35,28 +35,67 @@ public class ReservationListDBTest {
 		ReservationListDB b = new ReservationListDB(a);
 
 		// for (int i = 0; i < 5; i++)
-	//	testingToString(b);
+		// testingToString(b);
 
 		// testing the add method ====
-		//testAddMethod(b);
+		// testAddMethod(b);
 
 		// testing getReservations method
-		//testGetReservations(b);
+		// testGetReservations(b);
 
 		// testing the canle method ====
-	//	testCancle(b);
+		// testCancle(b);
+
+		// testing getReservedRooms
+		getReservedRoomsTest(b);
 
 		// testing get free rooms method ====
 		testGetFreeRoom(b);
 
 		// testing getFreeRooms with roomtype param ===
-	//	testGetFreeRoomsType(b);
+		// testGetFreeRoomsType(b);
 
 		// teasting the clearAllPast method
-		//testClearAllPast(b);
+		// testClearAllPast(b);
 
 		// testing the disconnect method
-		//testDisconnect(b);
+		// testDisconnect(b);
+	}
+
+	private static void getReservedRoomsTest(ReservationListDB b) {
+
+		System.out.println("Testing getReservedRooms method \n");
+
+		System.out.println("Test case 1");
+		LocalDate checkin = LocalDate.of(2016, 9, 25);
+		LocalDate checkout = LocalDate.of(2016, 9, 27);
+		System.out.println("datest being used " + checkin + " to " + checkout+ "\n");
+
+		try {
+			List<Room> freeRooms = b.getReservedRooms(checkin, checkout);
+
+			for (int i = 0; i < freeRooms.size(); i++) {
+				// System.out.println(freeRooms.get(i));
+			}
+		} catch (IllegalArgumentException ai) {
+			System.out.println(ai.getMessage());
+		}
+
+		System.out.println("\nTest case 2");
+		checkin = LocalDate.of(2014, 1, 1);
+		checkout = LocalDate.of(2014, 12, 30);
+		System.out.println("datest being used " + checkin + " to " + checkout+ "\n");
+
+		try {
+			List<Room> freeRooms = b.getReservedRooms(checkin, checkout);
+
+			for (int i = 0; i < freeRooms.size(); i++) {
+				//System.out.println(freeRooms.get(i));
+			}
+		} catch (IllegalArgumentException ai) {
+			System.out.println(ai.getMessage());
+		}
+
 	}
 
 	private static void testingToString(ReservationListDB b) {
@@ -66,26 +105,26 @@ public class ReservationListDBTest {
 		System.out.println("end of toString testing \n");
 
 	}
-/**
+
 	public static void testAddMethod(ReservationListDB resList) {
 
 		System.out.println("------Testing the add method------");
 
-		System.out.println("case 1 valid it will not overlap and no exceptio will be thrown");
-		Room room = DawsonHotelFactory.DAWSON.getRoomInstance(202, "penthouse");
+		System.out.println("case 1 valid it will not overlap and no exceptio willbe thrown");
+		Room room = DawsonHotelFactory.DAWSON.getRoomInstance(202, "normal");
 		Customer customer = DawsonHotelFactory.DAWSON.getCustomerInstance("PEPE", "Escovar", "pepe_love@gmail.com");
 		Reservation res = new DawsonReservation(customer, room, 2035, 9, 27, 2036, 9, 30);
 
 		try {
 			resList.add(res);
 		} catch (DuplicateReservationException e) {
-			System.out.println(e.getMessage());
+			System.out.println(e.getMessage() + "\n");
 		} // end of case 1
 
 		String resInfo = "knitting_fan_37@aol.com*2014*5*23*2014*5*30*201";
 		String cusInfo = "knitting_fan_37@aol.com*Gertrude*Powell*visa*4539744292446098";
 
-		System.out.println("case 2 reservation already exits. \nthis is the data trying to be added \nReservation: "
+		System.out.println("\ncase 2 reservation already exits. \nthis is the data being added \nReservation: "
 				+ resInfo + "\nCustomer :" + cusInfo);
 		room = DawsonHotelFactory.DAWSON.getRoomInstance(202, "penthouse");
 		customer = DawsonHotelFactory.DAWSON.getCustomerInstance("PEPE", "Escovar", "pepe_love@gmail.com");
@@ -94,12 +133,11 @@ public class ReservationListDBTest {
 		try {
 			resList.add(res);
 		} catch (DuplicateReservationException e) {
-			System.out.println(e.getMessage());
+			System.out.println(e.getMessage() + "\n");
 		} // end of case 2
 
 		System.out.println("end of testAddMethod testing \n");
 	}
-	**/
 
 	private static void testDisconnect(ReservationListDB list) throws IOException {
 
@@ -151,83 +189,95 @@ public class ReservationListDBTest {
 
 		System.out.println("end of testGetReservations testing \n");
 	}
+
 	/**
-	private static void testCancle(ReservationListDB b) {
-
-		System.out.println("------Testing the cancle method------");
-
-		Room notARoom = DawsonHotelFactory.DAWSON.getRoomInstance(202, "normal");
-		Customer notACustomer = DawsonHotelFactory.DAWSON.getCustomerInstance("PEPE", "Escovar", "pepe_love@gmail.com");
-		Reservation notARes = new DawsonReservation(notACustomer, notARoom, 2016, 9, 1, 2016, 11, 5);
-		System.out.println("case 1 : invalid reservation\nreservation used : " + notARes.toString());
-
-		try {
-			b.cancel(notARes);
-		} catch (NonExistingReservationException e) {
-			System.out.println(e.getMessage());
-		}
-
-		// this is a valid Reservation
-		// this is the customer information I used to test is:
-		// sterling.archer@isis.ca*2016*1*1*2016*1*5*108
-		// sterling.archer@isis.ca*Archer*Sterling*mastercard*5214227392892824
-		Customer customer = DawsonHotelFactory.DAWSON.getCustomerInstance("Archer", "Sterling",
-				"sterling.archer@isis.ca");
-		Room room = DawsonHotelFactory.DAWSON.getRoomInstance(108, "normal");
-		Reservation res = new DawsonReservation(customer, room, 2016, 1, 1, 2016, 1, 5);
-
-		System.out.println("case 2 : valid Reservation\nReservatoin used : " + res.toString());
-
-		try {
-			b.cancel(res);
-		} catch (NonExistingReservationException e) {
-			System.out.println(e.getMessage());
-		}
-		System.out.println("end of testCancle testing \n");
-
-	}
-*/
+	 * private static void testCancle(ReservationListDB b) {
+	 * 
+	 * System.out.println("------Testing the cancle method------");
+	 * 
+	 * Room notARoom = DawsonHotelFactory.DAWSON.getRoomInstance(202, "normal");
+	 * Customer notACustomer =
+	 * DawsonHotelFactory.DAWSON.getCustomerInstance("PEPE", "Escovar",
+	 * "pepe_love@gmail.com"); Reservation notARes = new
+	 * DawsonReservation(notACustomer, notARoom, 2016, 9, 1, 2016, 11, 5);
+	 * System.out.println("case 1 : invalid reservation\nreservation used : " +
+	 * notARes.toString());
+	 * 
+	 * try { b.cancel(notARes); } catch (NonExistingReservationException e) {
+	 * System.out.println(e.getMessage()); }
+	 * 
+	 * // this is a valid Reservation // this is the customer information I used
+	 * to test is: // sterling.archer@isis.ca*2016*1*1*2016*1*5*108 //
+	 * sterling.archer@isis.ca*Archer*Sterling*mastercard*5214227392892824
+	 * Customer customer =
+	 * DawsonHotelFactory.DAWSON.getCustomerInstance("Archer", "Sterling",
+	 * "sterling.archer@isis.ca"); Room room =
+	 * DawsonHotelFactory.DAWSON.getRoomInstance(108, "normal"); Reservation res
+	 * = new DawsonReservation(customer, room, 2016, 1, 1, 2016, 1, 5);
+	 * 
+	 * System.out.println("case 2 : valid Reservation\nReservatoin used : " +
+	 * res.toString());
+	 * 
+	 * try { b.cancel(res); } catch (NonExistingReservationException e) {
+	 * System.out.println(e.getMessage()); } System.out.println("end of
+	 * testCancle testing \n");
+	 * 
+	 * }
+	 */
 	private static void testGetFreeRoom(ReservationListDB b) {
 
-		System.out.println("testing the get free rooms method");
+		System.out.println("\n--------testing the get free rooms method----------");
 
-		System.out.println("case 1 when checkin date is 2015, 9, 27 untill 2015, 9, 30");
+		LocalDate checkin = LocalDate.of(2016, 9, 25);
+		LocalDate checkout = LocalDate.of(2016, 9, 27);
+
+		System.out.println("case 1 when checkin date is " + checkin + " untill " + checkout + "\n");
 		List<Room> roomList = new ArrayList<Room>();
-		roomList = b.getFreeRooms(LocalDate.of(2015, 9, 27), LocalDate.of(2015, 9, 30));
-		System.out.println(roomList.size());
-		
+		roomList = b.getFreeRooms(checkin, checkout);
+		// System.out.println(roomList.size());
+
 		for (int i = 0; i < roomList.size(); i++) {
-			
-			System.out.println(roomList.get(i).toString());
+
+			// System.out.println(roomList.get(i).toString());
 		}
 
 		roomList = new ArrayList<Room>();
-		/**
-		System.out.println("case 2 all rooms available between 2012, 9, 27 and 2014, 9, 30 with room type normal");
-		roomList = b.getFreeRooms(LocalDate.of(2012, 9, 27), LocalDate.of(2014, 9, 30));
+		checkin = LocalDate.of(2014, 1, 1);
+		checkout = LocalDate.of(2014, 12, 30);
+
+		System.out.println("\n-----case 2 all rooms available between " + checkin + " untill " + checkout+ "\n");
+		roomList = b.getFreeRooms(checkin, checkout);
 
 		for (int i = 0; i < roomList.size(); i++) {
 
-			System.out.println(roomList.get(i).toString());
-			}
-			
-			*/
-		
+			//System.out.println(roomList.get(i).toString());
+		}
+
 		System.out.println("end of testGetFreeRoom testing \n");
+
 	}
 
 	private static void testGetFreeRoomsType(ReservationListDB b) {
 		System.out.println("-------testing the get free rooms method with the room type param-------");
 		List<Room> roomList = new ArrayList<Room>();
-		System.out.println("case 1 all rooms available between 2012, 9, 27 and 2014, 9, 30 with room type normal");
-		roomList = b.getFreeRooms(LocalDate.of(2012, 9, 27), LocalDate.of(2014, 9, 30), RoomType.NORMAL);
+		LocalDate checkin = LocalDate.of(2012, 9, 27);
+		LocalDate checkout = LocalDate.of(2014, 9, 30);
+
+		System.out.println(
+				"case 1 all rooms available between " + checkin + " and " + checkout + " with room type normal");
+		roomList = b.getFreeRooms(checkin, checkout, RoomType.NORMAL);
 
 		for (int i = 0; i < roomList.size(); i++) {
 
 			System.out.println(roomList.get(i).toString());
 		}
-		System.out.println("case 2 all rooms available between 2016 9 27 and 2016 9 30");
-		roomList = b.getFreeRooms(LocalDate.of(2016, 9, 27), LocalDate.of(2016, 9, 30), RoomType.NORMAL);
+
+		checkin = LocalDate.of(2016, 9, 27);
+		checkout = LocalDate.of(2016, 9, 30);
+
+		System.out.println(
+				"\ncase 2 all rooms available between " + checkin + " and " + checkout + " with room type normal");
+		roomList = b.getFreeRooms(checkin, checkout, RoomType.SUITE);
 
 		if (roomList.size() <= 0) {
 			System.out.println("no rooms are currentlly available");
