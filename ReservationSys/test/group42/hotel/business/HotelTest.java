@@ -51,9 +51,9 @@ public class HotelTest {
 		
 		Hotel hotelInstance = new Hotel(DawsonHotelFactory.DAWSON, customerList, reservesList);
 		
-		testFindCustomer(hotelInstance, reserA, reserFalse);
+		//testFindCustomer(hotelInstance, reserA, reserFalse);
 		//testCancelReservation(hotelInstance, reservesList, reserA);
-		//testCloseHotel(hotelInstance, reservesList, reservesListb, reserA, customerList);
+		testCloseHotel(hotelInstance, reservesList, reserA, customerList);
 		//testCreateReservation(hotelInstance, reserA, reserFalse);
 		//testFindReservations(hotelInstance, reserA);
 		//testRegisterCustomer(hotelInstance, reserA);
@@ -75,24 +75,19 @@ public class HotelTest {
 		
 	}
 	
-	public static void testCloseHotel(Hotel hotelInstance, ReservationDAO reservesList, ReservationDAO reservesListb, Reservation reser, CustomerDAO customerList) throws NonExistingCustomerException
+	public static void testCloseHotel(Hotel hotelInstance, ReservationDAO reservesList, Reservation reser, CustomerDAO customerList) 
+			throws NonExistingCustomerException
 	{
-		//need help from jaya, everytime i close the databases it is a whole new list so i cant test if it saved.
 		try{
 			//Cancel a reservation to make a change to test persistence
-			hotelInstance.cancelReservation(reser);
-			
-			//Reservation is no longer locatable, so we know we canceled it
-			System.out.print(hotelInstance.findReservations(hotelInstance.findCustomer("alonso@mclaren.com")));
+			System.out.println(reservesList+ "<==== The list + =====>" + reser);
+			//hotelInstance.cancelReservation(reser);
 			hotelInstance.closeHotel();
-			
+			System.out.println(reservesList);
 			//Instantiating a new hotel with a new reservesListb
-			Hotel hotelInstance2 = new Hotel(DawsonHotelFactory.DAWSON, customerList, reservesListb);
+			Hotel hotelInstance2 = new Hotel(DawsonHotelFactory.DAWSON, customerList, reservesList);
 			
-			//We can still find the reservation in this new hotel, but we can only find it on the first run through.
-			System.out.print(hotelInstance2.findReservations(hotelInstance2.findCustomer("alonso@mclaren.com")));
-			
-			} catch(Exception e){
+			} catch(IOException e){
 				System.out.print("Error closing the hotel");
 			}
 	}
