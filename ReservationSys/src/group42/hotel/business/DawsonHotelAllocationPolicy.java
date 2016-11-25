@@ -35,16 +35,13 @@ public class DawsonHotelAllocationPolicy {
 
 		List<Room> list = this.resDAO.getFreeRooms(checkIn, checkOut, roomType);
 		List<Room> randomRooms = new ArrayList<Room>();
-		Optional a = null;
-		
-		
+
 		Room room = search(list);
-		//Optional.ofNullable(room = search(list));
+		// Optional.ofNullable(room = search(list));
 		// System.out.println(count);
-		if (room == null){
+		if (room == null) {
 			return Optional.empty();
 		}
-	
 
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getFloor() == (room.getFloor())) {
@@ -61,20 +58,21 @@ public class DawsonHotelAllocationPolicy {
 
 	private Room search(List<Room> list) {
 
+		if (list.size() == 0) {
+			return null;
+		}
+
 		// helper variables
 		int count = 0, tempCount;
 		Room temp;
 		Room room = null;
-		try{
-		 room = list.get(0);
-		}catch (IndexOutOfBoundsException ai){
-			System.out.println("no rooms are available");
-		}
+
+		room = list.get(0);
 
 		for (int i = 0; i < list.size() - 1; i++) {
 			tempCount = 0;
 			temp = list.get(i);
-			//System.out.println("\t" + list.get(i));
+			// System.out.println("\t" + list.get(i));
 			for (int j = 0; j < list.size(); j++) {
 				if (list.get(i).getFloor() == list.get(j).getFloor()) {
 					tempCount++;

@@ -37,7 +37,7 @@ public class DawsonHotelAllocationPolicyTest {
 		System.out.println("----------case 3----------\ndate being used for testng " + checkin + " to " + checkout
 				+ " and with room type: " + roomType);
 		TestingDawsonHotelAllocationPolicy(checkin, checkout, roomType);
-		
+
 		checkin = LocalDate.of(2017, 6, 25);
 		checkout = LocalDate.of(2017, 7, 4);
 		roomType = RoomType.SUITE;
@@ -62,18 +62,13 @@ public class DawsonHotelAllocationPolicyTest {
 		DawsonHotelAllocationPolicy a = new DawsonHotelAllocationPolicy(resDB);
 		Optional<Room> freeRoom = null;
 
-		try {
+		freeRoom = a.freeRoom(checkin, checkout, roomType);
 
-			freeRoom = a.freeRoom(checkin, checkout, roomType);
-
-			if (!freeRoom.equals(Optional.empty())) {
-				System.out.println("      " + freeRoom.get().toString());
-			}
-
-		} catch (IndexOutOfBoundsException ai) {
-			System.out.println(ai.getMessage());
+		if (!freeRoom.equals(Optional.empty())) {
+			System.out.println("      " + freeRoom.get().toString());
+		}else{
+			System.out.println(freeRoom.toString());
 		}
 
 	}
-
 }
