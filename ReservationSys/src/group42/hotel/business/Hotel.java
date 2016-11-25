@@ -138,6 +138,7 @@ public class Hotel extends java.util.Observable {
 	public Customer registerCustomer(String firstName, String lastName, String email)
 			throws DuplicateCustomerException {
 		DawsonCustomer customer = new DawsonCustomer(firstName, lastName, email);
+		customers.add(customer);
 		return customer;
 	}
 
