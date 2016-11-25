@@ -3,6 +3,8 @@ package group42.hotel.business;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Random;
 
 import dw317.hotel.business.RoomType;
@@ -29,20 +31,50 @@ public class DawsonHotelAllocationPolicy {
 	 * @param roomType
 	 * @return
 	 */
-	public Room freeRoom(LocalDate checkIn, LocalDate checkOut, RoomType roomType) {
+	public Optional<Room> freeRoom(LocalDate checkIn, LocalDate checkOut, RoomType roomType) {
 
 		List<Room> list = this.resDAO.getFreeRooms(checkIn, checkOut, roomType);
 		List<Room> randomRooms = new ArrayList<Room>();
+		Optional a = null;
+		
+		
+		Room room = search(list);
+		//Optional.ofNullable(room = search(list));
+		// System.out.println(count);
+		if (room == null){
+			return Optional.empty();
+		}
+	
+
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getFloor() == (room.getFloor())) {
+				// System.out.println(list.get(i));
+				randomRooms.add(list.get(i));
+			}
+		}
+
+		Random rand = new Random();
+		int n = rand.nextInt(randomRooms.size()) + 0;
+
+		return Optional.of(randomRooms.get(n));
+	}
+
+	private Room search(List<Room> list) {
 
 		// helper variables
 		int count = 0, tempCount;
 		Room temp;
-		Room room = list.get(0);
+		Room room = null;
+		try{
+		 room = list.get(0);
+		}catch (IndexOutOfBoundsException ai){
+			System.out.println("no rooms are available");
+		}
 
 		for (int i = 0; i < list.size() - 1; i++) {
 			tempCount = 0;
 			temp = list.get(i);
-			System.out.println("\t" +list.get(i));
+			//System.out.println("\t" + list.get(i));
 			for (int j = 0; j < list.size(); j++) {
 				if (list.get(i).getFloor() == list.get(j).getFloor()) {
 					tempCount++;
@@ -53,46 +85,9 @@ public class DawsonHotelAllocationPolicy {
 				count = tempCount;
 			}
 		} // end of i loop
-		
-	System.out.println(count);
 
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getFloor() == (room.getFloor())) {
-				//System.out.println(list.get(i));
-				randomRooms.add(list.get(i));
-			}
-		}	
+		return room;
 
-		Random rand = new Random();
-		int n = rand.nextInt(randomRooms.size()) + 0;
-
-		
-
-		return randomRooms.get(n);
 	}
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
