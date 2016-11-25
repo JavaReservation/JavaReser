@@ -80,20 +80,30 @@ public class Hotel extends java.util.Observable {
 	 */
 	public Optional<Reservation> createReservation(Customer customer, LocalDate checkin, LocalDate checkout,
 			RoomType roomType) {
+		DawsonReservation reserv = null;
 
-		Room freeRoom = reservations.getFreeRooms(checkin, checkout, roomType).get(0);
+		Optional<Room> freeRoom = factory.getAllocationPolicy(reservations).getAvailableRoom(checkin, checkout,roomType);
 
-		DawsonReservation reserv = new DawsonReservation(customer, freeRoom, checkin.getYear(), checkin.getMonthValue(),
-				checkin.getDayOfMonth(), checkout.getYear(), checkout.getMonthValue(), checkout.getDayOfMonth());
+		if (freeRoom.isPresent()) {
+			Room room = freeRoom.get();
+			 reserv = new DawsonReservation(customer, room, checkin.getYear(), checkin.getMonthValue(),
+					checkin.getDayOfMonth(), checkout.getYear(), checkout.getMonthValue(), checkout.getDayOfMonth());
 
-		try {
-			reservations.add(reserv);
-		} catch (DuplicateReservationException e) {// If the message does not
-													// work, change the e
-			System.out.println(e.getMessage());
-		}
-		return Optional.ofNullable(reserv);
-	}
+			try {
+				reservations.add(reserv);
+			}
+			 catch (DuplicateReservationException e) {// If the message does
+														// not
+														// work, change the e
+				System.out.println(e.getMessage());
+			}
+			return Optional.ofNullable(reserv);}
+		return Optional.ofNullable(reserv);}
+	
+		//Optional<Reservation> res = reserv;
+		//return ;
+
+	
 
 	/**
 	 * Finds and returns a customer record.
@@ -160,12 +170,12 @@ public class Hotel extends java.util.Observable {
 		AbstractCreditCard creditCard = (AbstractCreditCard) CreditCard.getInstance(cType, cardnumber);
 
 		Email mail = new Email(email);
-		
+
 		Customer cus = customers.getCustomer(mail);
-		
-	 customers.update(cus.getEmail(), creditCard);
-	 
-	 return cus;
-		
+
+		customers.update(cus.getEmail(), creditCard);
+
+		return cus;
+
 	}
 }

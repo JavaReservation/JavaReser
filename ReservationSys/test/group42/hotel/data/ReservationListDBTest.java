@@ -47,7 +47,7 @@ public class ReservationListDBTest {
 		// testCancle(b);
 
 		// testing getReservedRooms
-		getReservedRoomsTest(b);
+		//getReservedRoomsTest(b);
 
 		// testing get free rooms method ====
 		testGetFreeRoom(b);

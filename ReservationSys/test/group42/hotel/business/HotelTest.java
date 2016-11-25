@@ -7,7 +7,6 @@ import dw317.hotel.business.interfaces.Customer;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.business.interfaces.Room;
 import dw317.hotel.data.DuplicateCustomerException;
-import dw317.hotel.data.DuplicateReservationException;
 import dw317.hotel.data.NonExistingCustomerException;
 import dw317.hotel.data.NonExistingReservationException;
 import dw317.hotel.data.interfaces.CustomerDAO;
@@ -36,7 +35,7 @@ public class HotelTest {
 		}
 		catch(Exception e){}
 		//Room, customer, and reser don't exist in the list
-		Room roomFalse = DawsonHotelFactory.DAWSON.getRoomInstance(202, "penthouse");
+		Room roomFalse = DawsonHotelFactory.DAWSON.getRoomInstance(202, "normal");
 		Customer customerFalse = DawsonHotelFactory.DAWSON.getCustomerInstance("PEPE", "Escovar", "pepe_love@gmail.com");
 		Reservation reserFalse = new DawsonReservation(customerFalse, roomFalse, 2035, 9, 27, 2036, 9, 30);
 		
@@ -117,17 +116,21 @@ public class HotelTest {
 	public static void testCreateReservation(Hotel hotelInstance, Reservation reser, Reservation reserFalse)
 	{
 		System.out.println("\nThis reservation being tested is already taken");
-		hotelInstance.createReservation(reser.getCustomer(), reser.getCheckInDate(), reser.getCheckOutDate(),
-				reser.getRoom().getRoomType());
+		
+			hotelInstance.createReservation(reser.getCustomer(), reser.getCheckInDate(), reser.getCheckOutDate(),
+					reser.getRoom().getRoomType());
+		
 		
 		System.out.println("\nThis reservation being tested is available");
-		
+		try{
 			hotelInstance.createReservation(reserFalse.getCustomer(), reserFalse.getCheckInDate(), reserFalse.getCheckOutDate(),
 					reserFalse.getRoom().getRoomType());
-		
-					
 		}
-	
+		catch(Exception e)
+		{
+			System.out.print("Meow");
+		}
+	}
 	
 	public static void testFindCustomer(Hotel hotelInstance, Reservation reser, Reservation reserFalse)
 	{
