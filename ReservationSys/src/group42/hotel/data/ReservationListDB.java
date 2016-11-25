@@ -215,7 +215,7 @@ public class ReservationListDB implements ReservationDAO {
 
 			if (this.database.get(i).getCheckInDate().isBefore(checkout)
 					&& this.database.get(i).getCheckOutDate().isAfter(checkin)) {
-
+				//System.out.println(this.database.get(i));
 				res.add(database.get(i).getRoom());
 
 			}
@@ -242,19 +242,21 @@ public class ReservationListDB implements ReservationDAO {
 		List<Room> rooms = new ArrayList<Room>();
 
 		List<Room> reservedRooms = this.getReservedRooms(checkin, checkout);
-
+		int skip = 1;
 		for (int i = 0; i < this.allRooms.size(); i++) {
-			int skip = 1;
 			for (int j = 0; j < reservedRooms.size(); j++) {
 
-				if (this.allRooms.get(i).equals(reservedRooms.get(j))) {
+				if (this.allRooms.get(i).compareTo(reservedRooms.get(j)) == 0) {
 					skip = -1;
 					break;
+				} else {
+					skip = 1;
 				}
 			} // end of j
 
 			if (skip != -1) {
 				rooms.add(this.allRooms.get(i));
+				//System.out.println(this.allRooms.get(i));
 			}
 
 		} // end of i
@@ -283,7 +285,9 @@ public class ReservationListDB implements ReservationDAO {
 		List<Room> rooms = this.getFreeRooms(checkin, checkout);
 		for (int i = 0; i < rooms.size(); i++) {
 			if (!rooms.get(i).getRoomType().equals(roomType)) {
+				// System.out.println(rooms.get(i));
 				rooms.remove(i);
+
 				i--;
 			}
 		}
