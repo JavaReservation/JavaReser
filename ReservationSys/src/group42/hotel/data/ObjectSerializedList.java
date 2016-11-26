@@ -6,83 +6,99 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import dw317.hotel.business.interfaces.Customer;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.business.interfaces.Room;
 import dw317.hotel.data.interfaces.ListPersistenceObject;
+import group42.util.ListUtilities;
+
 
 public class ObjectSerializedList implements ListPersistenceObject {
+	
+	private String custFilename;
+	private String resFilename;
+	private String roomFilename;
 
-	@SuppressWarnings({ "unchecked", "null" })
-	@Override
-	public List<Room> getRoomDatabase() throws ClassNotFoundException, IOException {
-
-		List<Room> rooms = null;
-
-		List<Room> meh = null;
-		meh.toArray(HotelFileLoader.getRoomListFromSequentialFile("ReservationSys\\datafiles\\sorted\\rooms.txt"));
-		
-		System.out.println(meh.toString());
-
-		try {
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream("arrayFile"));
-			rooms = (List<Room>) ois.readObject();
-
-			ois.close();
-
-		} catch (FileNotFoundException e) {
-			throw new FileNotFoundException("File was not found");
-		} catch (ClassNotFoundException e) {
-			throw new ClassNotFoundException("Class miss match trying to assign the file content into the variable");
-		} catch (IOException e) {
-			throw new IOException("IO exception");
-		}
-
-		return meh;
+	public ObjectSerializedList(String custFilename, String resFilename, String roomFilename){
+		this.custFilename = custFilename;
+		this.resFilename = resFilename;
+		this.roomFilename = roomFilename;
 	}
 
+	
+	@SuppressWarnings({ "unchecked"})
+	@Override
+	public List<Room> getRoomDatabase() {
+		List<Room> listRooms = null;
+		try{
+			listRooms = (List<Room>) ListUtilities.deserializeObject(roomFilename);
+		}
+		catch(IOException ioe){
+			return new ArrayList<Room>();
+		}
+		catch(ClassNotFoundException cnf){
+			System.out.println(cnf.getMessage());			
+		}
+		return listRooms;
+	}//end of getRoomDatabase
+	
+	public void saveRoomDatabase(List<Room> roomList) throws IOException {
+		ListUtilities.serializeObject(roomList, roomFilename);
+	}//end of saveRoomDatabase	
+	
+	
+	@SuppressWarnings({"unchecked"})
 	@Override
 	public List<Customer> getCustomerDatabase() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		List<Customer> custList = null;
+		try{
+			custList = (List<Customer>) ListUtilities.deserializeObject(custFilename);
+		}
+		catch(IOException ioe){
+			return new ArrayList<Customer>();
+		}
+		catch(ClassNotFoundException cnf){
+			System.out.println(cnf.getMessage());			
+		}
+		return custList;
+	}//end of getCustomerDatabase
 
+	@Override
+	public void saveCustomerDatabase(List<Customer> custList) throws IOException {
+		ListUtilities.serializeObject(custList, custFilename);
+	}//end of saveCustomerDatabase
+
+	
+	@SuppressWarnings({"unchecked"})
 	@Override
 	public List<Reservation> getReservationDatabase() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		List<Reservation> reservationList = null;
+		try{
+			reservationList = (List<Reservation>) ListUtilities.deserializeObject(resFilename);
+		}
+		catch(IOException ioe){
+			return new ArrayList<Reservation>();
+		}
+		catch(ClassNotFoundException cnf){
+			System.out.println(cnf.getMessage());			
+		}
+		return reservationList;
+	}//end of getReservationDatabase
 
 	@Override
-	public void saveCustomerDatabase(List<Customer> custs) throws IOException {
-		
-		try {
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("customerTesting"));
+	public void saveReservationDatabase(List<Reservation> resList) throws IOException {
+		ListUtilities.serializeObject(resList, resFilename);
+	}//end of saveReservationDatabase
+	
+	
+	
+	
+	
 
-			oos.writeObject(custs);
-			oos.close();
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
+	
 
-
-	}
-
-	@Override
-	public void saveReservationDatabase(List<Reservation> reservs) throws IOException {
-
-		try {
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("r"));
-
-			oos.writeObject(reservs);
-			oos.close();
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
-
-		
-	}
 
 }
