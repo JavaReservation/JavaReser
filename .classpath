@@ -5,5 +5,6 @@
 	<classpathentry kind="src" path="ReservationSys/src"/>
 	<classpathentry kind="src" path="ReservationSys/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="ReservationSys/datafiles/database/rooms.txt"/>
 	<classpathentry kind="output" path="Common42/bin"/>
 </classpath>

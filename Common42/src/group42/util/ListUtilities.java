@@ -25,6 +25,7 @@ import java.io.ObjectOutputStream;
  * @author Werner
  * @version 27/10/2016
  */
+@SuppressWarnings("unused")
 public class ListUtilities {
 	private static final Charset CHARACTER_ENCODING = StandardCharsets.UTF_8;
 

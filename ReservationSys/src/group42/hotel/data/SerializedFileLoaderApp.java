@@ -1,25 +1,53 @@
 package group42.hotel.data;
 
-import java.util.List;
-
-import dw317.hotel.business.interfaces.Customer;
-import dw317.hotel.business.interfaces.Room;
-import group42.hotel.business.DawsonCustomer;
+import java.io.IOException;
+import group42.util.ListUtilities;
 
 public class SerializedFileLoaderApp {
 
-	public static void main(String[] args) {
-
-		//SequentialTextFileList a = null;
-
-		List<Customer> c;
-
-	//	c.add(new DawsonCustomer("pepe", "lovo", "pepeLovo@gmail.com"));
-		//c.add(new DawsonCustomer("meow", "cat", "meowCat@gmail.com"));
+	public static void main(String[] args) throws IOException {
+		SequentialTextFileList stfl = new SequentialTextFileList("JavaReser\\ReservationSys\\datafiles\\database\\rooms.txt",
+																 "JavaReser\\ReservationSys\\datafiles\\database\\customers.txt",
+																 "JavaReser\\ReservationSys\\datafiles\\database\\reservations.txt");
 		
-	//	ObjectSerializedList.saveCustomerDatabase(c);
-		
-		
+				
+		String roomFilename = "JavaReser\\ReservationSys\\datafiles\\database\\rooms.ser";
+		String customerFilename = "JavaReser\\ReservationSys\\datafiles\\database\\customers.ser";
+		String reservationFilename = "JavaReser\\ReservationSys\\datafiles\\database\\reservations.ser";
 
-	}
-}
+		saveRoomObject(stfl, roomFilename);
+		saveCustomerObject(stfl, customerFilename);
+		saveReservationObject(stfl, reservationFilename);
+
+	}//end of main method
+ 
+
+	private static void saveRoomObject(SequentialTextFileList stfl, String fileLocation){
+		try{
+			ListUtilities.serializeObject(stfl.getRoomDatabase(),fileLocation);
+		}
+		catch(IOException ioe){
+			System.out.println("ioexceptino has been thrown");
+		}
+	}//end of saveRoomObject
+	
+	private static void saveCustomerObject(SequentialTextFileList stfl, String fileLocation){
+		try{
+			ListUtilities.serializeObject(stfl.getCustomerDatabase(),fileLocation);
+		}
+		catch(IOException ioe){
+			System.out.println("ioexception has been thrown");
+		}
+	}//end of saveCustomerObject
+	
+	
+	private static void saveReservationObject(SequentialTextFileList stfl, String fileLocation){
+		try{
+			ListUtilities.serializeObject(stfl.getReservationDatabase(),fileLocation);
+		}
+		catch(IOException ioe){
+			System.out.println("ioexceptioin has been thrown");
+		}
+	
+	}//end of saveReservationObject
+}//end of class
