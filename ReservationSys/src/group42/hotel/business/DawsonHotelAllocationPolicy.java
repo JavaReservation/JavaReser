@@ -8,10 +8,11 @@ import java.util.Optional;
 import java.util.Random;
 
 import dw317.hotel.business.RoomType;
+import dw317.hotel.business.interfaces.AllocationPolicy;
 import dw317.hotel.business.interfaces.Room;
 import dw317.hotel.data.interfaces.ReservationDAO;
 
-public class DawsonHotelAllocationPolicy {
+public class DawsonHotelAllocationPolicy implements AllocationPolicy {
 
 	private static final long serialVersionUID = 42031768871L;
 	private ReservationDAO resDAO;
@@ -31,7 +32,8 @@ public class DawsonHotelAllocationPolicy {
 	 * @param roomType
 	 * @return
 	 */
-	public Optional<Room> freeRoom(LocalDate checkIn, LocalDate checkOut, RoomType roomType) {
+	@Override
+	public Optional<Room> getAvailableRoom(LocalDate checkIn, LocalDate checkOut, RoomType roomType){
 
 		List<Room> list = this.resDAO.getFreeRooms(checkIn, checkOut, roomType);
 		List<Room> randomRooms = new ArrayList<Room>();
@@ -88,4 +90,5 @@ public class DawsonHotelAllocationPolicy {
 
 	}
 
+	
 }

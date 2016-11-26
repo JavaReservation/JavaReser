@@ -62,12 +62,12 @@ public class DawsonHotelAllocationPolicyTest {
 		DawsonHotelAllocationPolicy a = new DawsonHotelAllocationPolicy(resDB);
 		Optional<Room> freeRoom = null;
 
-		freeRoom = a.freeRoom(checkin, checkout, roomType);
+		freeRoom = a.getAvailableRoom(checkin, checkout, roomType);
 
 		if (!freeRoom.equals(Optional.empty())) {
 			System.out.println("      " + freeRoom.get().toString());
 		}else{
-			System.out.println(freeRoom.toString());
+			System.out.println(freeRoom);
 		}
 
 	}
