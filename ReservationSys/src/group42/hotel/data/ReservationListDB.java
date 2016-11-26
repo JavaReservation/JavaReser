@@ -81,18 +81,20 @@ public class ReservationListDB implements ReservationDAO {
 	@Override
 	public void add(Reservation reserv) throws DuplicateReservationException { // issues
 
-		Reservation res = factory.getReservationInstance(reserv);
-		int index = search(this.database, res);
+		for (int i = 0; i < database.size(); i++) {
+			if (database.get(i).overlap(reserv))
+				throw new DuplicateReservationException("Error overlap");
+		}
+
+		int index = search(this.database, factory.getReservationInstance(reserv));
 		index = -(index);
 
-		if (index > 0) {
-			this.database.add(index, reserv);
-			System.out.println("Reservation added ==>" + this.database.get(index).toString());
-
-		} else {
-			// System.out.println(" binary search ==> " + index);
+		if (index < 0) {
 			throw new DuplicateReservationException("The reservation is already in our system");
+
 		}
+		this.database.add(index, reserv);
+		System.out.println(this.database.get(index));
 
 	}
 
@@ -215,7 +217,7 @@ public class ReservationListDB implements ReservationDAO {
 
 			if (this.database.get(i).getCheckInDate().isBefore(checkout)
 					&& this.database.get(i).getCheckOutDate().isAfter(checkin)) {
-				//System.out.println(this.database.get(i));
+				// System.out.println(this.database.get(i));
 				res.add(database.get(i).getRoom());
 
 			}
@@ -256,7 +258,7 @@ public class ReservationListDB implements ReservationDAO {
 
 			if (skip != -1) {
 				rooms.add(this.allRooms.get(i));
-				//System.out.println(this.allRooms.get(i));
+				// System.out.println(this.allRooms.get(i));
 			}
 
 		} // end of i

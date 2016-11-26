@@ -38,7 +38,7 @@ public class ReservationListDBTest {
 		// testingToString(b);
 
 		// testing the add method ====
-		// testAddMethod(b);
+		 testAddMethod(b);
 
 		// testing getReservations method
 		// testGetReservations(b);
@@ -50,7 +50,7 @@ public class ReservationListDBTest {
 		//getReservedRoomsTest(b);
 
 		// testing get free rooms method ====
-		testGetFreeRoom(b);
+		//testGetFreeRoom(b);
 
 		// testing getFreeRooms with roomtype param ===
 		// testGetFreeRoomsType(b);
@@ -59,7 +59,7 @@ public class ReservationListDBTest {
 		// testClearAllPast(b);
 
 		// testing the disconnect method
-		// testDisconnect(b);
+		 testDisconnect(b);
 	}
 
 	private static void getReservedRoomsTest(ReservationListDB b) {
