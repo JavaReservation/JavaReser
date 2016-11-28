@@ -3,14 +3,17 @@
  */
 package dw317.lib;
 
+import java.io.Serializable;
+
 /**
  * @author Werner Castanaza The name class is ment ot validate the first and
  *         last name (type string) if it does not meet standereds set. Date:
  *         27/09/2016
  *
  */
-public class Name implements Comparable<Name> {
+public class Name implements Serializable, Comparable<Name> {
 
+	private static final long serialVersionUID = 42031768871L;
 	private String firstName;
 	private String lastName;
 

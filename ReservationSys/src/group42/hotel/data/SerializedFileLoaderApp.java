@@ -27,7 +27,7 @@ public class SerializedFileLoaderApp {
 			ListUtilities.serializeObject(stfl.getRoomDatabase(),fileLocation);
 		}
 		catch(IOException ioe){
-			System.out.println("ioexception  has been thrown saveRoomObject");
+			System.out.println("ioexception  has been thrown saveRoomObject    ====>" + ioe.getCause());
 		}
 	}//end of saveRoomObject
 	
@@ -36,7 +36,7 @@ public class SerializedFileLoaderApp {
 			ListUtilities.serializeObject(stfl.getCustomerDatabase(),fileLocation);
 		}
 		catch(IOException ioe){
-			System.out.println("ioexception has been thrown saveCustomerObject");
+			System.out.println("ioexception has been thrown saveCustomerObject    ====>" + ioe.getLocalizedMessage());
 		}
 	}//end of saveCustomerObject
 	
@@ -46,7 +46,7 @@ public class SerializedFileLoaderApp {
 			ListUtilities.serializeObject(stfl.getReservationDatabase(),fileLocation);
 		}
 		catch(IOException ioe){
-			System.out.println("ioexception has been thrown with saveReservationObject");
+			System.out.println("ioexception has been thrown with saveReservationObject    ====>" + ioe.getLocalizedMessage());
 		}
 	
 	}//end of saveReservationObject
