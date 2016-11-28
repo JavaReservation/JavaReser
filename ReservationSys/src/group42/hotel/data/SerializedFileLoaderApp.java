@@ -10,7 +10,7 @@ public class SerializedFileLoaderApp {
 																 "ReservationSys\\datafiles\\database\\customers.txt",
 																 "ReservationSys\\datafiles\\database\\reservations.txt");
 		
-				
+				 
 		String roomFilename = "ReservationSys\\datafiles\\database\\rooms.ser";
 		String customerFilename = "ReservationSys\\datafiles\\database\\customers.ser";
 		String reservationFilename = "ReservationSys\\datafiles\\database\\reservations.ser";
@@ -27,7 +27,7 @@ public class SerializedFileLoaderApp {
 			ListUtilities.serializeObject(stfl.getRoomDatabase(),fileLocation);
 		}
 		catch(IOException ioe){
-			System.out.println("ioexceptino has been thrown");
+			System.out.println("ioexception  has been thrown saveRoomObject");
 		}
 	}//end of saveRoomObject
 	
@@ -36,7 +36,7 @@ public class SerializedFileLoaderApp {
 			ListUtilities.serializeObject(stfl.getCustomerDatabase(),fileLocation);
 		}
 		catch(IOException ioe){
-			System.out.println("ioexception has been thrown");
+			System.out.println("ioexception has been thrown saveCustomerObject");
 		}
 	}//end of saveCustomerObject
 	
@@ -46,7 +46,7 @@ public class SerializedFileLoaderApp {
 			ListUtilities.serializeObject(stfl.getReservationDatabase(),fileLocation);
 		}
 		catch(IOException ioe){
-			System.out.println("ioexceptioin has been thrown");
+			System.out.println("ioexception has been thrown with saveReservationObject");
 		}
 	
 	}//end of saveReservationObject
