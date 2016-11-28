@@ -42,11 +42,11 @@ public class RoomListDBTest {
 			if (!dir.exists()){  
 				dir.mkdirs();
 			}
-			ListUtilities.saveListToTextFile(rooms, 
+			ListUtilities.serializeObject(rooms, 
 					"testfiles/testRooms.txt");
-			ListUtilities.saveListToTextFile(custs, 
+			ListUtilities.serializeObject(custs, 
 					"testfiles/testCustomers.txt");
-			ListUtilities.saveListToTextFile(reservs, 
+			ListUtilities.serializeObject(reservs, 
 					"testfiles/testReservations.txt");
 		}
 		catch(IOException io){
@@ -72,7 +72,7 @@ public class RoomListDBTest {
 
 	private static void testGetRooms() throws FileNotFoundException, ClassNotFoundException, IOException {
 		setup();
-		SequentialTextFileList file = new SequentialTextFileList
+		ObjectSerializedList file = new ObjectSerializedList
 				("testfiles/testRooms.txt", "testfiles/testCustomers.txt",
 						"testfiles/testReservations.txt");
 		RoomListDB db = new RoomListDB(file);
@@ -97,7 +97,7 @@ public class RoomListDBTest {
 
 	private static void testToString() throws FileNotFoundException, ClassNotFoundException, IOException{
 		setup();
-		SequentialTextFileList file = new SequentialTextFileList
+		ObjectSerializedList file = new ObjectSerializedList
 				("testfiles/testRooms.txt", "testfiles/testCustomers.txt",
 						"testfiles/testReservations.txt");
 		RoomListDB db = new RoomListDB(file);
