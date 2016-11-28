@@ -120,7 +120,7 @@ public class Email implements Serializable, Comparable<Email> {
 	 * @return userid
 	 */
 	public String getUserId() {
-
+		
 		return address.substring(0, address.indexOf('@'));
 
 	}
