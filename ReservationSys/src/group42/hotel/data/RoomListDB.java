@@ -17,7 +17,7 @@ import dw317.hotel.data.interfaces.*;
 public class RoomListDB implements RoomDAO {
 
 	private List<Room> database;
-	private final ListPersistenceObject listPersistenceObject;
+	private final ObjectSerializedList objectSerializedList;
 		
 	/**
 	 * Constructor requires a ListPersistenceObject to read from file.
@@ -26,9 +26,9 @@ public class RoomListDB implements RoomDAO {
 	 * @throws ClassNotFoundException 
 	 * @throws FileNotFoundException 
 	 */
-	public RoomListDB (ListPersistenceObject listPersistenceObject) throws FileNotFoundException, ClassNotFoundException, IOException {
-		this.listPersistenceObject = listPersistenceObject;
-		this.database = this.listPersistenceObject.getRoomDatabase();   
+	public RoomListDB (ObjectSerializedList objectSerializedList ) throws FileNotFoundException, ClassNotFoundException, IOException {
+		this.objectSerializedList = objectSerializedList ;
+		this.database = this.objectSerializedList .getRoomDatabase();   
 		
 	}
 
