@@ -66,6 +66,7 @@ public class HotelFileLoader {
 		}
 
 		finally {
+			if (inputFile != null)
 			inputFile.close();
 		}
 		return arr;
@@ -128,6 +129,7 @@ public class HotelFileLoader {
 		}
 
 		finally {
+			if (inputFile != null)
 			inputFile.close();
 		}
 		return arr;
@@ -234,6 +236,7 @@ public class HotelFileLoader {
 
 		// Close Scanner
 		finally {
+			if (inputFile != null)
 			inputStream.close();
 		}
 

@@ -6,14 +6,14 @@ import group42.util.ListUtilities;
 public class SerializedFileLoaderApp {
 
 	public static void main(String[] args) throws IOException {
-		SequentialTextFileList stfl = new SequentialTextFileList("JavaReser\\ReservationSys\\datafiles\\database\\rooms.txt",
-																 "JavaReser\\ReservationSys\\datafiles\\database\\customers.txt",
-																 "JavaReser\\ReservationSys\\datafiles\\database\\reservations.txt");
+		SequentialTextFileList stfl = new SequentialTextFileList("ReservationSys\\datafiles\\database\\rooms.txt",
+																 "ReservationSys\\datafiles\\database\\customers.txt",
+																 "ReservationSys\\datafiles\\database\\reservations.txt");
 		
 				
-		String roomFilename = "JavaReser\\ReservationSys\\datafiles\\database\\rooms.ser";
-		String customerFilename = "JavaReser\\ReservationSys\\datafiles\\database\\customers.ser";
-		String reservationFilename = "JavaReser\\ReservationSys\\datafiles\\database\\reservations.ser";
+		String roomFilename = "ReservationSys\\datafiles\\database\\rooms.ser";
+		String customerFilename = "ReservationSys\\datafiles\\database\\customers.ser";
+		String reservationFilename = "ReservationSys\\datafiles\\database\\reservations.ser";
 
 		saveRoomObject(stfl, roomFilename);
 		saveCustomerObject(stfl, customerFilename);
