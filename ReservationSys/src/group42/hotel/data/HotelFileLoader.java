@@ -236,7 +236,7 @@ public class HotelFileLoader {
 
 		// Close Scanner
 		finally {
-			if (inputFile != null)
+			if (inputStream != null)
 			inputStream.close();
 		}
 
