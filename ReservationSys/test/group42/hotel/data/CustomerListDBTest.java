@@ -49,18 +49,22 @@ public class CustomerListDBTest {
 			reservs [1] = "joe.mancini@mail.me*2016*10*10*2016*10*20*401";
 			//...
 			reservs [7] = "d@zzz.com*2016*10*12*2016*10*15*102";
-
+			SequentialTextFileList file = new SequentialTextFileList("testfiles/testRooms.txt",
+																	 "testfiles/testCustomers.txt",
+																	 "testfiles/testReservations.txt");
 			File dir = new File("testfiles");
 			try{
 				if (!dir.exists()){  
 					dir.mkdirs();
 				}
-				ListUtilities.saveListToTextFile(rooms, 
-						"testfiles/testRooms.txt");
-				ListUtilities.saveListToTextFile(custs, 
-						"testfiles/testCustomers.txt");
-				ListUtilities.saveListToTextFile(reservs, 
-						"testfiles/testReservations.txt");
+				ListUtilities.saveListToTextFile(rooms,"testfiles/testRooms.txt");
+				ListUtilities.serializeObject(rooms,"testfiles/testRooms.ser");
+				
+				ListUtilities.saveListToTextFile(custs,"testfiles/testCustomers.txt");
+				ListUtilities.serializeObject(custs,"testfiles/testCustomers.ser");
+				
+				ListUtilities.saveListToTextFile(reservs,"testfiles/testReservations.txt");
+				ListUtilities.serializeObject(reservs, "testfiles/testReservations.ser"); 
 			}
 			catch(IOException io){
 				System.out.println
@@ -82,12 +86,27 @@ public class CustomerListDBTest {
 				theFile.delete();
 			}
 		}
+		private static void teardownSerialization(){
+			File theFile = new File("testfiles/testRooms.ser");
+			if (theFile.exists()) {
+				theFile.delete();
+			}
+			theFile = new File("testfiles/testCustomers.ser");
+			if (theFile.exists()) {
+				theFile.delete();
+			}
+			theFile = new File("testfiles/testReservations.ser");
+			if (theFile.exists()) {
+				theFile.delete();
+			}
+		}
+	
 		private static void testAddMethod(){
 			setup();
 			Customer [] customerArray = new DawsonCustomer[5];
-			SequentialTextFileList file = new SequentialTextFileList
-					("testfiles/testRooms.txt", "testfiles/testCustomers.txt",
-							"testfiles/testReservations.txt");
+			ObjectSerializedList file = new ObjectSerializedList
+					("testfiles/testRooms.ser", "testfiles/testCustomers.ser",
+							"testfiles/testReservations.ser");
 			CustomerListDB db = new CustomerListDB(file);
 			customerArray[1] = new DawsonCustomer("Aaron", "Blakeh", "AaRon@yahoo.com");
 			try{
@@ -102,14 +121,14 @@ public class CustomerListDBTest {
 			}
 			System.out.println("\n"+db.toString());
 			
-			teardown();	
+			teardownSerialization();	
 		}
 		
 		
 		private static void testDisconnect(){
 			setup();
 			Customer [] customerArray = new DawsonCustomer[5];
-			SequentialTextFileList file = new SequentialTextFileList
+			ObjectSerializedList file = new ObjectSerializedList
 					("testfiles/testRooms.txt", "testfiles/testCustomers.txt",
 							"testfiles/testReservations.txt");
 			CustomerListDB db = new CustomerListDB(file);
@@ -135,15 +154,15 @@ public class CustomerListDBTest {
 			
 
 			
-			teardown();	
+			teardownSerialization();	
 		}
 
 		private static void testGetCustomer(){
 			setup();
 			Customer [] customerArray = new DawsonCustomer[5];
-			SequentialTextFileList file = new SequentialTextFileList
-					("testfiles/testRooms.txt", "testfiles/testCustomers.txt",
-							"testfiles/testReservations.txt");
+			ObjectSerializedList file = new ObjectSerializedList
+					("testfiles/testRooms.ser", "testfiles/testCustomers.ser",
+							"testfiles/testReservations.ser");
 			CustomerListDB db = new CustomerListDB(file);
 			customerArray[0] = new DawsonCustomer("Donnie", "Nut", "donut@yahoo.com");
 			try{
@@ -158,15 +177,15 @@ public class CustomerListDBTest {
 			}
 			
 			
-			teardown();	
+			teardownSerialization();	
 		}
 		
 		private static void testUpdateMethod(){
 			setup();
 			Customer [] customerArray = new DawsonCustomer[5];
-			SequentialTextFileList file = new SequentialTextFileList
-					("testfiles/testRooms.txt", "testfiles/testCustomers.txt",
-							"testfiles/testReservations.txt");
+			ObjectSerializedList file = new ObjectSerializedList
+					("testfiles/testRooms.ser", "testfiles/testCustomers.ser",
+							"testfiles/testReservations.ser");
 			CustomerListDB db = new CustomerListDB(file);
 			customerArray[0] = new DawsonCustomer("Rose", "Hilty", "hateraid@gmail.com");
 			try{
@@ -180,20 +199,20 @@ public class CustomerListDBTest {
 				System.out.print("General Exception");
 				//continue;
 			}
-			teardown();
+			teardownSerialization();
 		
 		}
 		
 		private static void testToString(){
 			setup();
-			SequentialTextFileList file = new SequentialTextFileList
+			ObjectSerializedList file = new ObjectSerializedList
 					("testfiles/testRooms.txt", "testfiles/testCustomers.txt",
 							"testfiles/testReservations.txt");
 			CustomerListDB db = new CustomerListDB(file);
 			
 			System.out.println(db.toString());
 
-			teardown();
+			teardownSerialization();
 		}
 
 	}
