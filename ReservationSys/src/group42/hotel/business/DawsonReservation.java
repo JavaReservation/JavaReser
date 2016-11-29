@@ -1,5 +1,6 @@
 package group42.hotel.business;
 
+import java.io.Serializable;
 /**
  * @auther Werner Castanaza
  * Date: 28/09/2016
@@ -13,8 +14,9 @@ import dw317.hotel.business.interfaces.Customer;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.business.interfaces.Room;
 
-public class DawsonReservation implements Reservation {
+public class DawsonReservation implements Serializable, Reservation {
 
+	private static final long serialVersionUID = 42031768871L;
 	private final Customer aCustomer;
 	private final Room aRoom;
 	private LocalDate checkIn;
