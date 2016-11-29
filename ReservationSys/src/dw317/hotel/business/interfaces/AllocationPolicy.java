@@ -11,6 +11,7 @@ public interface AllocationPolicy extends Serializable {
 	/**
 	 * Returns the available room.
 	 *
+	 *@author Werner
 	 * @return The visit of the next client booking the room.
 	 */
 	Optional<Room> getAvailableRoom(LocalDate checkin, LocalDate checkout, RoomType roomType);

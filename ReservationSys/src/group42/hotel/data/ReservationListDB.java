@@ -98,7 +98,7 @@ public class ReservationListDB implements ReservationDAO {
 
 	}
 
-	private static int search(List<? extends Reservation> reservationList, Reservation res) {
+	private int search(List<? extends Reservation> reservationList, Reservation res) {
 		int start = 0;
 		int end = reservationList.size() - 1;
 		int mid = (start + end) / 2;

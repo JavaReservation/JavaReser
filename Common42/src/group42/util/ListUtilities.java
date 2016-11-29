@@ -66,8 +66,8 @@ public class ListUtilities {
 				}
 
 			}
-			//if (minIndex != i)
-			
+			// if (minIndex != i)
+
 			list[minIndex] = list[i];
 			list[i] = (Comparable<?>) minValue;
 		}
@@ -229,12 +229,13 @@ public class ListUtilities {
 	}
 
 	// phase 4
-/**
- * serializing out to a file
- * @param object
- * @param fileSpecification
- * @throws IOException
- */
+	/**
+	 * serializing out to a file
+	 * 
+	 * @param object
+	 * @param fileSpecification
+	 * @throws IOException
+	 */
 	public static void serializeObject(Object object, String fileSpecification) throws IOException {
 		ObjectOutputStream out = null;
 		try {
@@ -248,13 +249,15 @@ public class ListUtilities {
 				out.close();
 		}
 	}
-/**
- * De-serializing into an object
- * @param fileSpecification
- * @return
- * @throws IOException
- * @throws ClassNotFoundException
- */
+
+	/**
+	 * De-serializing into an object
+	 * 
+	 * @param fileSpecification
+	 * @return
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public static Object deserializeObject(String fileSpecification) throws IOException, ClassNotFoundException {
 		ObjectInputStream in = null;
 		try {
