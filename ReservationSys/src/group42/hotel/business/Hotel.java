@@ -82,28 +82,32 @@ public class Hotel extends java.util.Observable {
 			RoomType roomType) {
 		DawsonReservation reserv = null;
 
-		Optional<Room> freeRoom = factory.getAllocationPolicy(reservations).getAvailableRoom(checkin, checkout,roomType);
+		Optional<Room> freeRoom = factory.getAllocationPolicy(reservations).getAvailableRoom(checkin, checkout,
+				roomType);
 
 		if (freeRoom.isPresent()) {
 			Room room = freeRoom.get();
-			 reserv = new DawsonReservation(customer, room, checkin.getYear(), checkin.getMonthValue(),
+			reserv = new DawsonReservation(customer, room, checkin.getYear(), checkin.getMonthValue(),
 					checkin.getDayOfMonth(), checkout.getYear(), checkout.getMonthValue(), checkout.getDayOfMonth());
 
 			try {
 				reservations.add(reserv);
-			}
-			 catch (DuplicateReservationException e) {// If the message does
+			} catch (DuplicateReservationException e) {// If the message does
 														// not
 														// work, change the e
 				System.out.println(e.getMessage());
 			}
-			return Optional.ofNullable(reserv);}
-		return Optional.ofNullable(reserv);}
-	
-		//Optional<Reservation> res = reserv;
-		//return ;
+			setChanged();
+			notifyObservers(reserv);
+			return Optional.ofNullable(reserv);
+		}
+		setChanged();
+		notifyObservers(reserv);
+		return Optional.ofNullable(reserv);
+	}
 
-	
+	// Optional<Reservation> res = reserv;
+	// return ;
 
 	/**
 	 * Finds and returns a customer record.
@@ -116,12 +120,19 @@ public class Hotel extends java.util.Observable {
 	 */
 	public Customer findCustomer(String email) throws NonExistingCustomerException {
 		Email e = new Email(email);
+		Customer cus = null;
 		try {
-			return customers.getCustomer(e);
+
+			cus = customers.getCustomer(e);
+
+			// return customers.getCustomer(e);
 		} catch (NonExistingCustomerException nec) {
 			System.out.println("\n" + nec.getMessage());
 		}
-		return null;// This is risky, I dont know if it will work Keylen
+		setChanged();
+		notifyObservers(cus);
+		return cus;// This is risky, I dont know if it will work Keylen... it
+					// will now WERNER WAS HERE (laughs in spanish)
 	}
 
 	/**
@@ -132,6 +143,9 @@ public class Hotel extends java.util.Observable {
 	 *         be found.
 	 */
 	public List<Reservation> findReservations(Customer customer) {
+
+		setChanged();
+		notifyObservers(reservations.getReservations(customer));
 		return reservations.getReservations(customer);
 	}
 
@@ -149,6 +163,8 @@ public class Hotel extends java.util.Observable {
 			throws DuplicateCustomerException {
 		DawsonCustomer customer = new DawsonCustomer(firstName, lastName, email);
 		customers.add(customer);
+		setChanged();
+		notifyObservers(customer);
 		return customer;
 	}
 
@@ -174,6 +190,9 @@ public class Hotel extends java.util.Observable {
 		Customer cus = customers.getCustomer(mail);
 
 		customers.update(cus.getEmail(), creditCard);
+
+		setChanged();
+		notifyObservers(cus);	
 
 		return cus;
 
