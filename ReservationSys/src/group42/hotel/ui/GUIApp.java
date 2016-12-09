@@ -15,14 +15,14 @@ public class GUIApp {
 				DawsonHotelFactory.DAWSON;
 		CustomerDAO customerDb =
 				new CustomerListDB(new ObjectSerializedList
-						("datafiles/database/rooms.ser" ,
-							"datafiles/database/customers.ser",
-							"datafiles/database/reservations.ser"));
+						("ReservationSys\\datafiles\\database\\customers.ser" ,
+							"ReservationSys\\datafiles\\database\\reservations.ser",
+							"ReservationSys\\datafiles\\database\\rooms.ser"));
 		ReservationDAO reservationDb = 
 				new ReservationListDB(new ObjectSerializedList
-						("datafiles/database/rooms.ser" ,
-							"datafiles/database/customers.ser",
-							"datafiles/database/reservations.ser"));
+						("ReservationSys\\datafiles\\database\\customers.ser" ,
+							"ReservationSys\\datafiles\\database\\reservations.ser",
+							"ReservationSys\\datafiles\\database\\rooms.ser"));
 	
 		Hotel model = new Hotel(factory, customerDb, reservationDb);
 		GUIViewController app = new GUIViewController(model);
