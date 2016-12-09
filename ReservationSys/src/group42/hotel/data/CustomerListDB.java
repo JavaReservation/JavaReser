@@ -29,6 +29,7 @@ public class CustomerListDB implements CustomerDAO {
 		this.listPersistenceObject = listPersistenceObject;
 		this.factory = DawsonHotelFactory.DAWSON;
 		this.database = listPersistenceObject.getCustomerDatabase();
+		System.out.println("The size of the database" + database.size());
 	}
 
 	public CustomerListDB(ListPersistenceObject listPersistenceObject, HotelFactory factory) {

@@ -77,7 +77,7 @@ public class TextController {
 		String email = getEmail(keyboard);
 
 		// TODO
-
+		System.out.println("Meow");
 		boolean valid;
 		do {
 			try {
@@ -101,7 +101,8 @@ public class TextController {
 		do {
 
 			try {
-				this.model.createReservation(this.model.findCustomer(getEmail(keyboard)), this.getDate(keyboard, "Pleas input your desire check in date"),
+				this.model.createReservation(this.model.findCustomer(getEmail(keyboard)), 
+						this.getDate(keyboard, "Pleas input your desire check in date"),
 						this.getDate(keyboard, "pleas enter your desire check out date"), this.getRoomType(keyboard));
 				valid = false;
 			} catch (Exception ai) {
@@ -116,15 +117,19 @@ public class TextController {
 		keyboard.nextLine(); // consume any previous value
 		System.out.println("customer info");
 
-		String email = getEmail(keyboard);
+		
 		boolean valid;
 
 		do {
 			try {
-				System.out.println("pree");
-				this.model.findCustomer(email);
 				valid = false;
-				System.out.println("after");
+				
+				String email = getEmail(keyboard);
+				//System.out.println("pree");
+					this.model.findCustomer(email);
+				
+					
+				//System.out.println("after");
 			} catch (Exception ai) {
 				System.out.println(ai.getMessage());
 				valid = true;
@@ -159,15 +164,16 @@ public class TextController {
 
 		// TODO
 
-		String card = getCardType(keyboard).toString();
-		String email = this.getEmail(keyboard);
-		String cardnumber = this.getInput(keyboard, "Pleas enter the card number");
-
 		boolean valid;
 
 		do {
+
 			try {
-				this.model.updateCreditCard(email, card, cardnumber);
+				String email = this.getEmail(keyboard);
+				String type =  getCardType(keyboard).toString();
+				String cardNumber = getCardType(keyboard).toString();
+
+				this.model.updateCreditCard(email, type, cardNumber);
 				valid = false;
 			} catch (Exception ai) {
 				System.out.println(ai.getMessage());
