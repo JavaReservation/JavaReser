@@ -20,7 +20,7 @@ public class TextView implements Observer{
 	
 	public TextView (Hotel model){
 		
-		model.addListener(this);;
+		model.addObserver(this);
 		
 	}
 

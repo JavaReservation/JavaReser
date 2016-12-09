@@ -24,7 +24,8 @@ public class DawsonHotelAllocationPolicy implements AllocationPolicy {
 	}
 
 	/**
-	 * 
+	 * returns an Optional room list containing all the available rooms within a given time period 
+	 * and a specifide room type
 	 * 
 	 * @author Werner
 	 * @param checkIn

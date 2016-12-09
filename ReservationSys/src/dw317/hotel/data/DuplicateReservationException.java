@@ -5,7 +5,7 @@ public class DuplicateReservationException extends Exception {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 42031768871L;
 	
 	public DuplicateReservationException(){
 		super("This Room has been booked already!");

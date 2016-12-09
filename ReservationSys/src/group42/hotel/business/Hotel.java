@@ -202,8 +202,4 @@ public class Hotel extends Observable implements HotelManager{
 
 	}
 
-	public void addListener(TextView textView) {
-		// TODO Auto-generated method stub
-		
-	}
 }

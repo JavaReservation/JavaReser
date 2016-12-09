@@ -20,10 +20,10 @@ import group42.util.ListUtilities;
 public class CustomerListDBTest {
 		public static void main(String[] args) {
 			testAddMethod();
-			testDisconnect();
-			testGetCustomer();
-			testUpdateMethod();
-			testToString();
+			//testDisconnect();
+			//testGetCustomer();
+		//	testUpdateMethod();
+		//	testToString();
 		}
 		
 		private static void setup()
@@ -106,7 +106,7 @@ public class CustomerListDBTest {
 					("testfiles/testCustomers.ser",
 							"testfiles/testReservations.ser","testfiles/testRooms.ser");
 			CustomerListDB db = new CustomerListDB(file);
-			customerArray[1] = new DawsonCustomer("Aaron", "Blakeh", "AaRon@yahoo.com");
+			customerArray[1] = new DawsonCustomer("Aron", "Blake", "AaRon2@yahoo.com");
 			try{
 				db.add(customerArray[1]);
 			}
