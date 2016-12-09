@@ -13,7 +13,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 
 /**
- * @author werner
+ * @author wernerr
  *
  */
 public class TextView implements Observer{
