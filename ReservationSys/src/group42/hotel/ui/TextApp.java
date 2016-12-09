@@ -1,15 +1,12 @@
 package group42.hotel.ui;
 
 import dw317.hotel.business.interfaces.*;
-import dw317.hotel.data.interfaces.CustomerDAO;
-import dw317.hotel.data.interfaces.ReservationDAO;
-import group42.hotel.business.DawsonHotelFactory;
+import dw317.hotel.data.interfaces.*;
 import group42.hotel.business.*;
 import group42.hotel.data.*;
+import javafx.beans.Observable;
 
-
-public class GUIApp {
-
+public class TextApp {
 	public static void main(String[] args) {
 		HotelFactory factory = 
 				DawsonHotelFactory.DAWSON;
@@ -23,11 +20,10 @@ public class GUIApp {
 						("datafiles/database/rooms.ser" ,
 							"datafiles/database/customers.ser",
 							"datafiles/database/reservations.ser"));
-	
+
 		Hotel model = new Hotel(factory, customerDb, reservationDb);
-		GUIViewController app = new GUIViewController(model);
-		
-		
+		TextView view = new TextView(model);
+		TextController controller = new TextController(model);
+		controller.run();
 	}
 }
-

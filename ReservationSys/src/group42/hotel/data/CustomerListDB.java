@@ -71,7 +71,7 @@ public class CustomerListDB implements CustomerDAO {
 	{
 		int index = search(database, email);
 		if(index < 0)
-			throw new NonExistingCustomerException();
+			throw new NonExistingCustomerException("coudnt find an email " + email);
 				return database.get(index);
 	}
 
@@ -155,7 +155,7 @@ public class CustomerListDB implements CustomerDAO {
 				high = middle -1;
 			}
 		}
-		return -(high + 1);
+		return -(low + 1);
 
 	} 
 }

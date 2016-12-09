@@ -40,13 +40,17 @@ public class ReservationListDB implements ReservationDAO {
 	 * @throws ClassNotFoundException
 	 * @throws FileNotFoundException
 	 */
-	public ReservationListDB(ListPersistenceObject listPersistenceObject)
-			throws FileNotFoundException, ClassNotFoundException, IOException {
+	public ReservationListDB(ListPersistenceObject listPersistenceObject) {
 
 		this.listPersistenceObject = listPersistenceObject;
-		this.factory = DawsonHotelFactory.DAWSON;
-		this.allRooms = this.listPersistenceObject.getRoomDatabase();
-		this.database = listPersistenceObject.getReservationDatabase();
+		try {
+			this.allRooms = this.listPersistenceObject.getRoomDatabase();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.database = this.listPersistenceObject.getReservationDatabase();
+		factory = DawsonHotelFactory.DAWSON;
 	}
 
 	/**

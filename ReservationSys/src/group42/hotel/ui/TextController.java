@@ -11,6 +11,7 @@ import dw317.hotel.data.*;
 import dw317.lib.Email;
 import dw317.lib.creditcard.CreditCard;
 import dw317.lib.creditcard.CreditCard.CardType;
+import group42.hotel.business.Hotel;
 import dw317.hotel.business.RoomType;
 import dw317.hotel.business.interfaces.*;
 
@@ -21,10 +22,11 @@ public class TextController {
 		CUSTOMER_INFO, REGISTER_CUSTOMER, CREATE_RESERVATION, RESERVATION_INFO, CHANGE_CREDITCARD, STOP
 	}
 
-	public TextController(HotelManager model) {
+	public TextController(Hotel model) {
 		this.model = model;
 	}
 
+	
 	public void run() {
 		Scanner keyboard = new Scanner(System.in);
 		Command[] commands = Command.values();
@@ -82,37 +84,10 @@ public class TextController {
 				this.model.registerCustomer(firstName, lastName, email);
 				valid = false;
 			} catch (DuplicateCustomerException e) {
-				System.out.println("I am sorry that customer is already in out databse ");
+				System.out.println("I am sorry that customer is already in our databse ");
 				valid = true;
 			}
 		} while (valid);
-
-	}
-
-	private Customer newCus(Scanner keyboard) {
-		keyboard.nextLine(); // consume any previous value
-
-		Customer cus = null;
-
-		// get name
-		String firstName = getInput(keyboard, "\nPlease enter the first name: ");
-		String lastName = getInput(keyboard, "Please enter the last name: ");
-
-		// get email
-		String email = getEmail(keyboard);
-
-		boolean valid;
-		do {
-			try {
-				cus = this.model.registerCustomer(firstName, lastName, email);
-				valid = false;
-			} catch (DuplicateCustomerException e) {
-				System.out.println("I am sorry that customer is already in out databse ");
-				valid = true;
-			}
-		} while (valid);
-
-		return cus;
 
 	}
 
@@ -120,15 +95,13 @@ public class TextController {
 		keyboard.nextLine(); // consume any previous value
 
 		// TODO
-		Customer cus = newCus(keyboard);
-		// get room
-		// RoomType
+		
 		boolean valid;
 
 		do {
 
 			try {
-				this.model.createReservation(cus, this.getDate(keyboard, "Pleas input your desire check in date"),
+				this.model.createReservation(this.model.findCustomer(getEmail(keyboard)), this.getDate(keyboard, "Pleas input your desire check in date"),
 						this.getDate(keyboard, "pleas enter your desire check out date"), this.getRoomType(keyboard));
 				valid = false;
 			} catch (Exception ai) {
@@ -141,14 +114,17 @@ public class TextController {
 
 	private void customerInfo(Scanner keyboard) {
 		keyboard.nextLine(); // consume any previous value
+		System.out.println("customer info");
 
 		String email = getEmail(keyboard);
 		boolean valid;
 
 		do {
 			try {
+				System.out.println("pree");
 				this.model.findCustomer(email);
 				valid = false;
+				System.out.println("after");
 			} catch (Exception ai) {
 				System.out.println(ai.getMessage());
 				valid = true;
@@ -161,13 +137,15 @@ public class TextController {
 		keyboard.nextLine(); // consume any previous value
 
 		// TODO
-		Customer cus = this.newCus(keyboard);
+		//Customer cus = this.newCus(keyboard);
 		boolean valid;
 
 		do {
 			try {
-				this.model.findReservations(cus);
+
+				this.model.findReservations((this.model.findCustomer(getEmail(keyboard))));
 				valid = false;
+
 			} catch (Exception ai) {
 				System.out.println(ai.getMessage());
 				valid = true;

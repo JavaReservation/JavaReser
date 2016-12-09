@@ -3,28 +3,37 @@
  */
 package group42.hotel.ui;
 
+import java.util.Observer;
+
+import dw317.hotel.business.interfaces.Reservation;
+import dw317.lib.creditcard.AbstractCreditCard;
+import dw317.lib.creditcard.CreditCard;
+import group42.hotel.business.Hotel;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 
 /**
- * @author pepe
+ * @author werner
  *
  */
-public class TextView implements Observable{
+public class TextView implements Observer{
 	
-	public TextView (Observable model){
+	public TextView (Hotel model){
+		
+		model.addListener(this);;
 		
 	}
 
 	@Override
-	public void addListener(InvalidationListener arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void update(java.util.Observable obs, Object obj) {
 
-	@Override
-	public void removeListener(InvalidationListener arg0) {
-		// TODO Auto-generated method stub
+		String str = obs.toString();
+		
+		if (obs instanceof CreditCard){
+			
+		}
+		
+		
 		
 	}
 

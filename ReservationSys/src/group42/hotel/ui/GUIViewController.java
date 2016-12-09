@@ -121,7 +121,8 @@ public class GUIViewController extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
+
+		resultText.setText(arg1.toString());
 
 	}
 
@@ -131,15 +132,15 @@ public class GUIViewController extends JFrame implements Observer {
 		public void actionPerformed(ActionEvent arg0) {
 
 			try {
-				Customer cusInfo = model.findCustomer(email.getText().toString());
+				Customer cusInfo = model.findCustomer(email.getText());
 				resultText.setText(cusInfo.toString());
 
 			} catch (Exception e) {
-				System.out.println(e.getMessage() + " =======  " + e.getLocalizedMessage());
+				System.out.println(e.getMessage() + " =======  " + e.toString());
 
-				JOptionPane.showMessageDialog(resultText, e.getMessage());
+				JOptionPane.showMessageDialog(resultText, e.getMessage() + e.getStackTrace());
 
-			}
+			} 
 
 		}
 
@@ -153,7 +154,7 @@ public class GUIViewController extends JFrame implements Observer {
 			try {
 				Reservation resInfo = model.findReservations(model.findCustomer(email.getText())).get(0);
 
-				resultText.setText(resInfo.toString());
+				resultText.setText(resInfo.getRoom().toString());
 
 			} catch (Exception e) {
 				System.out.println(e.getMessage() + " =======  " + e.getLocalizedMessage());

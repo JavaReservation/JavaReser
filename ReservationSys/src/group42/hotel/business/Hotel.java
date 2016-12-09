@@ -3,11 +3,13 @@ package group42.hotel.business;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Observable;
 import java.util.Optional;
 
 import dw317.hotel.business.RoomType;
 import dw317.hotel.business.interfaces.Customer;
 import dw317.hotel.business.interfaces.HotelFactory;
+import dw317.hotel.business.interfaces.HotelManager;
 import dw317.hotel.business.interfaces.Reservation;
 import dw317.hotel.business.interfaces.Room;
 import dw317.hotel.data.DuplicateCustomerException;
@@ -20,6 +22,8 @@ import dw317.lib.Email;
 import dw317.lib.creditcard.AbstractCreditCard;
 import dw317.lib.creditcard.CreditCard;
 import dw317.lib.creditcard.CreditCard.CardType;
+import group42.hotel.ui.TextView;
+import javafx.beans.InvalidationListener;
 
 /**
  * This class will allow
@@ -27,7 +31,7 @@ import dw317.lib.creditcard.CreditCard.CardType;
  * @author Keylen
  *
  */
-public class Hotel extends java.util.Observable {
+public class Hotel extends Observable implements HotelManager{
 
 	private final HotelFactory factory;
 	private final CustomerDAO customers;
@@ -119,11 +123,11 @@ public class Hotel extends java.util.Observable {
 	 *             if the customer with the given e-mail cannot be found
 	 */
 	public Customer findCustomer(String email) throws NonExistingCustomerException {
-		Email e = new Email(email);
+		Email mail = new Email(email);
 		Customer cus = null;
 		try {
 
-			cus = customers.getCustomer(e);
+			cus = customers.getCustomer(mail);
 
 			// return customers.getCustomer(e);
 		} catch (NonExistingCustomerException nec) {
@@ -196,5 +200,10 @@ public class Hotel extends java.util.Observable {
 
 		return cus;
 
+	}
+
+	public void addListener(TextView textView) {
+		// TODO Auto-generated method stub
+		
 	}
 }
