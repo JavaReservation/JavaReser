@@ -102,6 +102,8 @@ public class GUIViewController extends JFrame implements Observer {
 
 		custInfo.addActionListener(new CustomerInfo());
 		resInfo.addActionListener(new ReservationInfo());
+	
+		
 
 		return buttonPanel;
 	}
@@ -115,6 +117,7 @@ public class GUIViewController extends JFrame implements Observer {
 
 		JButton exit = new JButton("Exit");
 		panel.add(exit);
+		exit.addActionListener(new exit());	
 
 		return bottomPanel;
 	}
@@ -123,6 +126,14 @@ public class GUIViewController extends JFrame implements Observer {
 	public void update(Observable arg0, Object arg1) {
 
 		resultText.setText(arg1.toString());
+
+	}
+
+	private class exit implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
+		}
 
 	}
 
@@ -140,7 +151,7 @@ public class GUIViewController extends JFrame implements Observer {
 
 				JOptionPane.showMessageDialog(resultText, e.getMessage() + e.getStackTrace());
 
-			} 
+			}
 
 		}
 

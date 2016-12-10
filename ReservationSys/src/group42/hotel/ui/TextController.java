@@ -26,7 +26,6 @@ public class TextController {
 		this.model = model;
 	}
 
-	
 	public void run() {
 		Scanner keyboard = new Scanner(System.in);
 		Command[] commands = Command.values();
@@ -78,11 +77,12 @@ public class TextController {
 
 		// TODO
 		System.out.println("Meow");
-		boolean valid;
+		boolean valid = false;
 		do {
 			try {
-				this.model.registerCustomer(firstName, lastName, email);
 				valid = false;
+				this.model.registerCustomer(firstName, lastName, email);
+
 			} catch (DuplicateCustomerException e) {
 				System.out.println("I am sorry that customer is already in our databse ");
 				valid = true;
@@ -95,16 +95,17 @@ public class TextController {
 		keyboard.nextLine(); // consume any previous value
 
 		// TODO
-		
-		boolean valid;
+
+		boolean valid = false;
 
 		do {
 
 			try {
-				this.model.createReservation(this.model.findCustomer(getEmail(keyboard)), 
+				valid = false;
+				this.model.createReservation(this.model.findCustomer(getEmail(keyboard)),
 						this.getDate(keyboard, "Pleas input your desire check in date"),
 						this.getDate(keyboard, "pleas enter your desire check out date"), this.getRoomType(keyboard));
-				valid = false;
+
 			} catch (Exception ai) {
 				System.out.println(ai.getMessage());
 				valid = true;
@@ -117,19 +118,17 @@ public class TextController {
 		keyboard.nextLine(); // consume any previous value
 		System.out.println("customer info");
 
-		
-		boolean valid;
+		boolean valid = false;
 
 		do {
 			try {
 				valid = false;
-				
+
 				String email = getEmail(keyboard);
-				//System.out.println("pree");
-					this.model.findCustomer(email);
-				
-					
-				//System.out.println("after");
+				// System.out.println("pree");
+				this.model.findCustomer(email);
+
+				// System.out.println("after");
 			} catch (Exception ai) {
 				System.out.println(ai.getMessage());
 				valid = true;
@@ -142,14 +141,13 @@ public class TextController {
 		keyboard.nextLine(); // consume any previous value
 
 		// TODO
-		//Customer cus = this.newCus(keyboard);
-		boolean valid;
+		// Customer cus = this.newCus(keyboard);
+		boolean valid = false;
 
 		do {
 			try {
-
-				this.model.findReservations((this.model.findCustomer(getEmail(keyboard))));
 				valid = false;
+				this.model.findReservations((this.model.findCustomer(getEmail(keyboard))));
 
 			} catch (Exception ai) {
 				System.out.println(ai.getMessage());
@@ -164,17 +162,18 @@ public class TextController {
 
 		// TODO
 
-		boolean valid;
+		boolean valid = false;
 
 		do {
 
 			try {
+				valid = false;
 				String email = this.getEmail(keyboard);
-				String type =  getCardType(keyboard).toString();
+				String type = getCardType(keyboard).toString();
 				String cardNumber = getCardType(keyboard).toString();
 
 				this.model.updateCreditCard(email, type, cardNumber);
-				valid = false;
+
 			} catch (Exception ai) {
 				System.out.println(ai.getMessage());
 				valid = true;
