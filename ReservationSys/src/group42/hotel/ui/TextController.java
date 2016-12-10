@@ -68,26 +68,23 @@ public class TextController {
 	private void newCustomer(Scanner keyboard) {
 		keyboard.nextLine(); // consume any previous value
 
-		// get name
-		String firstName = getInput(keyboard, "\nPlease enter the first name: ");
-		String lastName = getInput(keyboard, "Please enter the last name: ");
-
-		// get email
-		String email = getEmail(keyboard);
-
 		// TODO
-		System.out.println("Meow");
-		boolean valid = false;
-		do {
-			try {
-				valid = false;
-				this.model.registerCustomer(firstName, lastName, email);
+		boolean invalid;
 
+		do {
+			invalid = false;
+			String firstName = getInput(keyboard, "\nPlease enter the first name: ");
+			String lastName = getInput(keyboard, "Please enter the last name: ");
+			String email = getEmail(keyboard);
+			try {
+				this.model.registerCustomer(firstName, lastName, email);
 			} catch (DuplicateCustomerException e) {
-				System.out.println("I am sorry that customer is already in our databse ");
-				valid = true;
+				System.out.println("Invalid! Customer already in system. " + e.getMessage());
+				System.out.println("\nPlease try again!");
+
+				invalid = true;
 			}
-		} while (valid);
+		} while (invalid);
 
 	}
 
@@ -97,21 +94,31 @@ public class TextController {
 		// TODO
 
 		boolean valid = false;
+		Customer cus;
+		String firstName =null;;
+		String lastName=null;;
 
 		do {
+			valid = false;
+			
+			System.out.println("Please enter the email address: ");
+			
+			customerInfo(keyboard);
+			String email = keyboard.nextLine();
+			LocalDate checkin = getDate(keyboard, "\nPlease enter your checkin date");
+			LocalDate checkout = getDate(keyboard, "\nPlease enter your checkout date");
+			RoomType roomType = getRoomType(keyboard);
 
 			try {
-				valid = false;
-				this.model.createReservation(this.model.findCustomer(getEmail(keyboard)),
-						this.getDate(keyboard, "Pleas input your desire check in date"),
-						this.getDate(keyboard, "pleas enter your desire check out date"), this.getRoomType(keyboard));
+				cus = this.model.registerCustomer(firstName, lastName, email);
+				this.model.createReservation(cus, checkin, checkout, roomType);
 
-			} catch (Exception ai) {
-				System.out.println(ai.getMessage());
+			} catch (DuplicateCustomerException e) {
+				System.out.println(e.getMessage() + "\nPlease try again!");
+
 				valid = true;
 			}
 		} while (valid);
-
 	}
 
 	private void customerInfo(Scanner keyboard) {
@@ -121,36 +128,32 @@ public class TextController {
 		boolean valid = false;
 
 		do {
+			valid = false;
+			String email = getEmail(keyboard);
 			try {
-				valid = false;
-
-				String email = getEmail(keyboard);
-				// System.out.println("pree");
 				this.model.findCustomer(email);
-
-				// System.out.println("after");
-			} catch (Exception ai) {
-				System.out.println(ai.getMessage());
+			} catch (NonExistingCustomerException e) {
+				System.out.println(e.getMessage() + " Please try again.");
 				valid = true;
 			}
 		} while (valid);
-
 	}
 
 	private void reservationInfo(Scanner keyboard) {
 		keyboard.nextLine(); // consume any previous value
-
+		
 		// TODO
 		// Customer cus = this.newCus(keyboard);
 		boolean valid = false;
 
 		do {
+			valid = false;
+			String email = getEmail(keyboard);
 			try {
-				valid = false;
-				this.model.findReservations((this.model.findCustomer(getEmail(keyboard))));
-
-			} catch (Exception ai) {
-				System.out.println(ai.getMessage());
+				this.model.findReservations(this.model.findCustomer(email));
+			} catch (NonExistingCustomerException e) {
+				System.out.println(
+						"Sorry, your email does not exist in our system. " + e.getMessage() + "Please try again.\n");
 				valid = true;
 			}
 		} while (valid);
@@ -165,18 +168,19 @@ public class TextController {
 		boolean valid = false;
 
 		do {
+			valid = false;
+			String email = getEmail(keyboard);
+			String cardnumber = getInput(keyboard, "\nEnter your creditcard number: ");
+			String cardType = getCardType(keyboard).toString();
 
 			try {
-				valid = false;
-				String email = this.getEmail(keyboard);
-				String type = getCardType(keyboard).toString();
-				String cardNumber = getCardType(keyboard).toString();
-
-				this.model.updateCreditCard(email, type, cardNumber);
-
-			} catch (Exception ai) {
-				System.out.println(ai.getMessage());
+				this.model.updateCreditCard(email, cardType, cardnumber);
+			} catch (NonExistingCustomerException e) {
+				System.out.println(
+						"Sorry, your email does not exist in our system. " + e.getMessage() + "Please try again. ");
 				valid = true;
+			} catch (IllegalArgumentException iae) {
+				System.out.println(iae.getMessage());
 			}
 		} while (valid);
 
