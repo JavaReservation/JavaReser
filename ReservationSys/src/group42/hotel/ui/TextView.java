@@ -3,6 +3,7 @@
  */
 package group42.hotel.ui;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class TextView implements Observer {
 	public void update(Observable o, Object arg) {
 		if (arg instanceof Customer)
 			displayCustomerInfo(o, arg);
-		if (arg instanceof ReservationListDB)
+		if (arg instanceof ArrayList<?>)
 			displayReservationInfo(o, arg);
 
 	}
@@ -40,9 +41,22 @@ public class TextView implements Observer {
 	}
 
 	private void displayReservationInfo(Observable o, Object arg) {
-		// displayCustomerInfo(o, arg);
+		displayCustomerInfo(o, arg);
 		System.out.println("You have  reservations");
+		@SuppressWarnings("unchecked")
+		ArrayList<Reservation> reserList = (ArrayList<Reservation>) arg;
+		
+		if(reserList.size() != 0){
+			System.out.println("\nReservations: ");
+			
+			for(Reservation reserv : reserList)
+				System.out.println("Room: " + reserv.getRoom().getRoomNumber() 
+				+ "\nCheck in date: " + reserv.getCheckInDate() 
+				+ "\nCheck out date: " + reserv.getCheckOutDate());
+		}
+		o.notifyObservers();
+		}
 
 	}
 
-}
+
